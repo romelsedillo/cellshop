@@ -3,6 +3,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import Featured from "./Featured";
+import NewArrivals from "./NewArrivals";
 
 export const FeaturedProducts = () => {
   return (
@@ -17,24 +19,23 @@ export const FeaturedProducts = () => {
             New Arrivals
           </TabsTrigger>
         </TabsList>
+        {/* Featured */}
         <TabsContent value="featured" className="w-full">
-          <div className="flex gap-8">
-            {Array.from({ length: 5 }).map((_, index) => (
-              <div key={index} className="h-60 w-40 border-2 rounded-lg"></div>
-            ))}
-          </div>
+          <Featured />
         </TabsContent>
+
+        {/* New Arrivals */}
         <TabsContent value="new-arrivals">
-          <div className="flex gap-8">
-            {Array.from({ length: 4 }).map((_, index) => (
-              <div key={index} className="h-60 w-40 border-2 rounded-lg"></div>
-            ))}
-          </div>
+          <NewArrivals />
         </TabsContent>
       </Tabs>
       <div className="text-center">
         <Link href="/products">
-          <Button variant="outline" size="lg" className="rounded-full group">
+          <Button
+            variant="outline"
+            size="lg"
+            className="rounded-full group cursor-pointer"
+          >
             View All Products
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Button>
