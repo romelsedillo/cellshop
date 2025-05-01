@@ -4,9 +4,6 @@ import { Badge } from "../ui/badge";
 import Image from "next/image";
 import Link from "next/link";
 import realMe from "@/images/realme-14pro-plus-1.jpg";
-import { ShoppingCart, Heart } from "lucide-react";
-import { Button } from "../ui/button";
-import { toast } from "sonner";
 import AddToWishList from "./AddToWishList";
 import AddToCart from "./AddToCart";
 

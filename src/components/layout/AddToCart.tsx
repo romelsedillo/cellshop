@@ -8,13 +8,13 @@ const AddToCart = () => {
   return (
     <Button
       size="sm"
-      className="absolute bottom-3 right-3 text-xs flex items-center rounded-full bg-pink-500 text-white cursor-pointer hover:bg-pink-600"
+      className="absolute bottom-3 right-3 text-xs flex items-center rounded-md bg-pink-500 text-white cursor-pointer hover:bg-pink-600"
       onClick={(e) => {
         e.preventDefault();
         toast.success("Realme 14 Pro+ added to cart!");
       }}
     >
-      <ShoppingCart className="h-4 w-4 mr-1" /> Add
+      <ShoppingCart className="h-4 w-4 mr-[2px]" /> Add
     </Button>
   );
 };
