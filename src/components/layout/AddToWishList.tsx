@@ -9,7 +9,7 @@ const AddToWishList = () => {
     <Button
       size="icon"
       variant="outline"
-      className="absolute top-2 right-2 h-8 w-8 rounded-full cursor-pointer border border-pink-200"
+      className="absolute z-10 top-2 right-2 h-8 w-8 rounded-full cursor-pointer border border-pink-200"
       onClick={(e) => {
         e.preventDefault();
         toast.success("Added to wishlist!");

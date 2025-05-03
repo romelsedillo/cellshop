@@ -9,9 +9,10 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import heroBg1 from "@/images/hero/hero-bg-1.png";
-import heroBg2 from "@/images/hero/hero-bg-2.png";
-import heroBg3 from "@/images/hero/hero-bg-3.png";
+import heroBg1 from "@/images/hero/hero-bg-1.jpg";
+import heroBg2 from "@/images/hero/hero-bg-2.jpg";
+import heroBg3 from "@/images/hero/hero-bg-3.jpg";
+import { Button } from "../ui/button";
 
 const heroSlides = [
   {
@@ -22,7 +23,7 @@ const heroSlides = [
   },
   {
     image: heroBg2,
-    title: "Latest Smartphones Deals",
+    title: "Newest Phone Offers",
     description:
       "Get exclusive discounts on your favorite phone brands only at Cellshop.",
   },
@@ -36,14 +37,14 @@ const heroSlides = [
 
 const Hero = () => {
   return (
-    <div className="relative">
+    <div className="relative w-full bg-white">
       <Swiper
         modules={[Autoplay, Pagination, Navigation, Parallax]}
         autoplay={{ delay: 8000, disableOnInteraction: false }}
         loop={true}
         pagination={{ clickable: true }}
         navigation={true}
-        className="w-full"
+        className="w-full max-w-7xl mx-auto"
         parallax={true}
         speed={1500}
       >
@@ -54,9 +55,9 @@ const Hero = () => {
         ></div>
         {heroSlides.map((slide, index) => (
           <SwiperSlide key={index}>
-            <section className="flex flex-col-reverse lg:flex-row items-center justify-between gap-8 px-6 py-12 lg:px-20 bg-white">
+            <section className="flex flex-col-reverse lg:flex-row items-center justify-between py-12 lg:px-20 bg-white">
               {/* Text */}
-              <div className=" w-full text-center lg:text-left max-w-xl">
+              <div className="w-full text-center lg:text-left max-w-xl">
                 <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
                   {slide.title}
                 </h1>
@@ -70,24 +71,38 @@ const Hero = () => {
                   data-swiper-parallax="-300"
                   className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
                 >
-                  <button className="px-6 py-3 bg-pink-500 text-white rounded-2xl hover:bg-pink-600 transition">
+                  <Button
+                    size="lg"
+                    className="bg-pink-500 text-white hover:bg-pink-600 transition"
+                  >
                     Shop Now
-                  </button>
-                  <button className="px-6 py-3 border border-pink-500 text-pink-500 rounded-2xl hover:bg-gray-100 transition">
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="bg-white border border-pink-500 text-pink-500 hover:text-pink-500 hover:bg-gray-100 transition"
+                  >
                     Browse Brands
-                  </button>
+                  </Button>
                 </div>
               </div>
 
               {/* Image */}
-              <div className="w-full max-w-md" data-swiper-parallax="-400">
-                <Image
-                  data-swiper-parallax="200"
-                  src={slide.image}
-                  alt="Phone mockup"
-                  className="w-full h-auto object-contain"
-                  priority
-                />
+              <div
+                className="w-full flex items-center justify-center"
+                data-swiper-parallax="-400"
+              >
+                <div className="">
+                  <Image
+                    data-swiper-parallax="200"
+                    src={slide.image}
+                    alt="Phone mockup"
+                    width={300}
+                    height={300}
+                    className="w-60 h-60"
+                    priority
+                  />
+                </div>
               </div>
             </section>
           </SwiperSlide>

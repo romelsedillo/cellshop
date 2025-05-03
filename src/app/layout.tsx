@@ -27,10 +27,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-100`}
       >
         <Navbar />
-        <main className="px-6">{children}</main>
+        <main className="">{children}</main>
         <Toaster position="top-right" />
       </body>
     </html>

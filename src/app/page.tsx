@@ -4,7 +4,7 @@ import Hero from "@/components/layout/Hero";
 
 export default function Home() {
   return (
-    <div>
+    <div className="bg-slate-100">
       <Hero />
       <FeaturedProducts />
       <FeaturedBrands />

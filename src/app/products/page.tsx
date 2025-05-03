@@ -1,3 +1,4 @@
+("");
 import { Badge } from "@/components/ui/badge";
 import { stripe } from "@/lib/stripe";
 import Image from "next/image";
@@ -7,8 +8,9 @@ import AddToCart from "@/components/layout/AddToCart";
 const ProductsPage = async () => {
   const { data: products } = await stripe.products.list({
     expand: ["data.default_price"],
+    limit: 20,
   });
-
+  console.log(products);
   return (
     <section className="px-6 py-12 lg:px-20">
       <h1 className="text-4xl font-bold mb-8 text-gray-900">All Products</h1>
@@ -47,7 +49,10 @@ const ProductsPage = async () => {
               )}
 
               {/* Product Info */}
-              <h2 className="text-xl font-bold">{product.name}</h2>
+              <h2 className="text-lg font-bold">{product.name}</h2>
+              <h2 className="text-sm text-gray-500">
+                {product.metadata?.brand}
+              </h2>
 
               {/* Product Price */}
               {unitAmount ? (
