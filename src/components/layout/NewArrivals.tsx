@@ -1,10 +1,19 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import ProductCard from "./ProductCard";
 import { motion } from "framer-motion";
+import { useProductStore } from "@/store/useProductStore";
+import type { Product } from "@/types/product";
+import ProductSkeletonCard from "./ProductSkeletonCard";
 
 const NewArrivals = () => {
+  const { allProducts, loading, error, fetchAllProducts } = useProductStore();
+
+  useEffect(() => {
+    fetchAllProducts();
+  }, [fetchAllProducts]);
+
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -22,16 +31,30 @@ const NewArrivals = () => {
 
   return (
     <motion.div
-      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6"
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"
       variants={container}
       initial="hidden"
       animate="show"
     >
-      {Array.from({ length: 6 }).map((_, index) => (
-        <motion.div key={index} variants={item}>
-          <ProductCard />
+      {loading ? (
+        <motion.div className="col-span-5 grid grid-cols-5 gap-4">
+          {Array.from({ length: 10 }).map((_, index) => (
+            <ProductSkeletonCard key={index} />
+          ))}
         </motion.div>
-      ))}
+      ) : error ? (
+        <div className="col-span-5">
+          <p className="text-center font-medium text-lg text-red-500">
+            Error loading products.
+          </p>
+        </div>
+      ) : (
+        allProducts.map((prod: Product) => (
+          <motion.div key={prod.id} variants={item}>
+            <ProductCard key={prod.id} product={prod} />
+          </motion.div>
+        ))
+      )}
     </motion.div>
   );
 };

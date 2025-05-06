@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import iPhone from "@/images/brand/iPhone.webp";
-import samsung from "@/images/brand/samsung-galaxy.jpg";
+import samsung from "@/images/brand/samsung-galaxy.webp";
 import oneplus from "@/images/brand/OnePlus.jpg";
 import google from "@/images/brand/google-pixel.jpg";
 import Image from "next/image";
