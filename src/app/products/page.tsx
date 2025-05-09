@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useProductStore } from "@/store/useProductStore";
 import ProductCard from "@/components/layout/ProductCard";
 import ProductSkeletonCard from "@/components/layout/ProductSkeletonCard";
@@ -18,9 +18,25 @@ const brand = [
   { id: "9", label: "Google", value: "google" },
   { id: "10", label: "Infinix", value: "infinix" },
 ];
+const categories = [
+  { id: "best-camera", label: "Best Camera Phones", value: "best-camera" },
+  { id: "high-battery", label: "High Battery Capacity", value: "high-battery" },
+  { id: "gaming-phones", label: "Gaming Phones", value: "gaming-phones" },
+  { id: "foldable-phones", label: "Foldable Phones", value: "foldable-phones" },
+  { id: "budget-phones", label: "Budget Phones", value: "budget-phones" },
+  { id: "mid-range", label: "Mid-Range Phones", value: "mid-range" },
+  { id: "flagship", label: "Flagship Phones", value: "flagship" },
+  { id: "tablet", label: "Tablet", value: "tablet" },
+];
 
 const ProductsPage = () => {
   const { allProducts, loading, error, fetchAllProducts } = useProductStore();
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
+  const sortedProducts = [...allProducts].sort((a, b) =>
+    sortOrder === "asc" ? a.price - b.price : b.price - a.price
+  );
+
   useEffect(() => {
     fetchAllProducts();
   }, [fetchAllProducts]);
@@ -29,40 +45,58 @@ const ProductsPage = () => {
     <section className="w-full">
       <div className="max-w-7xl px-12 py-12 mx-auto">
         <div className="mx-auto">
-          <h1 className="text-4xl text-gray-900 font-bold mb-2">
-            Browse Our Collection
-          </h1>
-          <p className="mb-10 text-gray-600">
-            Discover top-rated smartphones from your favorite brands.
-          </p>
+          <div className="flex items-end justify-between mb-4">
+            <div className="">
+              <h1 className="text-4xl text-gray-900 font-bold mb-2">
+                Browse Our Collection
+              </h1>
+              <p className="text-gray-600">
+                Discover top-rated smartphones from your favorite brands.
+              </p>
+            </div>
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
+              className="border border-gray-300 px-3 py-2 rounded text-sm"
+            >
+              <option value="asc">Price: Low to High</option>
+              <option value="desc">Price: High to Low</option>
+            </select>
+          </div>
           <div className="grid grid-cols-12 gap-4 mx-auto">
             <div className="col-span-3 flex flex-col gap-4">
               <div className="border border-gray-200 shadow-md bg-white py-4 px-6">
-                <h1>Brands</h1>
-                <RadioGroup defaultValue="comfortable">
+                <h1 className="text-xl font-semibold mb-2">Brands</h1>
+                <RadioGroup defaultValue="">
                   {brand.map((b, index) => (
                     <div key={index} className="flex items-center space-x-2">
-                      <RadioGroupItem value={b.value} id={b.id} />
-                      <Label htmlFor={b.id}>{b.label}</Label>
+                      <Label htmlFor={b.id} className="group cursor-pointer">
+                        <RadioGroupItem
+                          value={b.value}
+                          id={b.id}
+                          className="cursor-pointer"
+                        />
+                        {b.label}
+                      </Label>
                     </div>
                   ))}
                 </RadioGroup>
               </div>
-              <div className="border border-gray-200 shadow-md bg-white">
-                <h1>Categories</h1>
-                <RadioGroup defaultValue="comfortable">
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="default" id="r1" />
-                    <Label htmlFor="r1">Default</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="comfortable" id="r2" />
-                    <Label htmlFor="r2">Comfortable</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="compact" id="r3" />
-                    <Label htmlFor="r3">Compact</Label>
-                  </div>
+              <div className="border border-gray-200 shadow-md bg-white py-4 px-6">
+                <h1 className="text-xl font-semibold mb-2">Categories</h1>
+                <RadioGroup defaultValue="">
+                  {categories.map((cate, index) => (
+                    <div key={index} className="flex items-center space-x-2">
+                      <Label htmlFor={cate.id} className="group cursor-pointer">
+                        <RadioGroupItem
+                          value={cate.value}
+                          id={cate.id}
+                          className="cursor-pointer"
+                        />
+                        {cate.label}
+                      </Label>
+                    </div>
+                  ))}
                 </RadioGroup>
               </div>
             </div>
@@ -76,7 +110,7 @@ const ProductsPage = () => {
                   Error loading products.
                 </p>
               ) : (
-                allProducts.map((prod) => (
+                sortedProducts.map((prod) => (
                   <ProductCard key={prod.id} product={prod} />
                 ))
               )}
