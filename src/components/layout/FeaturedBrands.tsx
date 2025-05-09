@@ -20,7 +20,7 @@ const brands = [
 
 export const FeaturedBrands = () => {
   return (
-    <section className=" bg-white">
+    <section className="bg-white">
       <div className="px-20 py-16 max-w-7xl mx-auto">
         <div className="w-full flex items-center justify-between mb-10">
           <div className="max-w-xl">
@@ -42,20 +42,22 @@ export const FeaturedBrands = () => {
           {brands.map((brand, index) => (
             <div key={index}>
               <Link href={brand.href}>
-                <Card className="relative w-40 h-40 rounded-sm border overflow-hidden transition-transform duration-300 hover:scale-105 ">
+                <Card className="group relative shadow-md w-40 h-40 rounded-lg border-gray-200 border overflow-hidden transition-transform duration-300">
                   <CardContent className="w-full h-full flex items-center justify-center">
                     <div className="w-full">
                       <Image
                         alt={brand.name}
                         src={brand.image}
                         fill
-                        className="object-cover"
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                     </div>
                     <div className="absolute w-full inset-0 bg-black/40" />
                     <div className="absolute z-20 w-full text-center text-white">
                       <h2 className=" font-semibold text-2xl">{brand.name}</h2>
-                      <p className="text-xs">View products</p>
+                      <p className="text-xs group-hover:underline">
+                        View products
+                      </p>
                     </div>
                   </CardContent>
                 </Card>

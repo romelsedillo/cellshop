@@ -7,7 +7,9 @@ const Navbar = () => {
     <nav className=" bg-white">
       <div className="max-w-7xl py-5 px-8 flex justify-between items-center mx-auto">
         <div className="font-bold text-lg">
-          <Link href="/">PickCell Shop</Link>
+          <Link href="/">
+            Pick<span className="text-pink-500">Cell</span> Shop
+          </Link>
         </div>
         <div className="flex gap-4 font-semibold text-sm">
           <Link href="/" className=" hover:underline">
