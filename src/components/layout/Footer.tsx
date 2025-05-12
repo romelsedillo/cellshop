@@ -33,7 +33,7 @@ const contactInfo = [
 const Footer = () => {
   return (
     <div className="w-full bg-white">
-      <div className="max-w-7xl mx-auto relative flex flex-col px-20">
+      <div className="max-w-7xl mx-auto relative flex flex-col px-8">
         <div className="px-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-b gap-4">
           {contactInfo.map((info, index) => (
             <div

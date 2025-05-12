@@ -9,7 +9,7 @@ import NewArrivals from "./NewArrivals";
 export const FeaturedProducts = () => {
   return (
     <div className="w-full">
-      <div className="max-w-7xl mx-auto relative flex flex-col px-20 py-16">
+      <div className="max-w-7xl mx-auto relative flex flex-col px-8 py-16">
         <h1 className="font-bold text-4xl text-gray-900 mb-2">
           Top Picks For You
         </h1>

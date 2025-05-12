@@ -43,7 +43,7 @@ const ProductsPage = () => {
   console.log(allProducts);
   return (
     <section className="w-full">
-      <div className="max-w-7xl px-12 py-12 mx-auto">
+      <div className="max-w-7xl px-8 py-12 mx-auto">
         <div className="mx-auto">
           <div className="flex items-end justify-between mb-4">
             <div className="">
@@ -63,14 +63,18 @@ const ProductsPage = () => {
               <option value="desc">Price: High to Low</option>
             </select>
           </div>
-          <div className="grid grid-cols-12 gap-4 mx-auto">
-            <div className="col-span-3 flex flex-col gap-4">
+          <div className="grid grid-cols-12 gap-2 mx-auto">
+            {/* Brands button group */}
+            <div className="col-span-2 flex flex-col gap-2">
               <div className="border border-gray-200 shadow-md bg-white py-4 px-6">
                 <h1 className="text-xl font-semibold mb-2">Brands</h1>
                 <RadioGroup defaultValue="">
                   {brand.map((b, index) => (
                     <div key={index} className="flex items-center space-x-2">
-                      <Label htmlFor={b.id} className="group cursor-pointer">
+                      <Label
+                        htmlFor={b.id}
+                        className="group cursor-pointer text-xs"
+                      >
                         <RadioGroupItem
                           value={b.value}
                           id={b.id}
@@ -87,7 +91,10 @@ const ProductsPage = () => {
                 <RadioGroup defaultValue="">
                   {categories.map((cate, index) => (
                     <div key={index} className="flex items-center space-x-2">
-                      <Label htmlFor={cate.id} className="group cursor-pointer">
+                      <Label
+                        htmlFor={cate.id}
+                        className="group cursor-pointer text-xs"
+                      >
                         <RadioGroupItem
                           value={cate.value}
                           id={cate.id}
@@ -100,7 +107,7 @@ const ProductsPage = () => {
                 </RadioGroup>
               </div>
             </div>
-            <div className="col-span-9 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 mx-auto">
+            <div className="col-span-10 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 mx-auto">
               {loading ? (
                 Array.from({ length: 10 }).map((_, index) => (
                   <ProductSkeletonCard key={index} />

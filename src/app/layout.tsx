@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import Footer from "@/components/layout/Footer";
+import CartDrawer from "@/components/layout/CartDrawer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,9 +32,12 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-100`}
       >
         <Navbar />
-        <main className="">{children}</main>
+        <main className="">
+          {children}
+          <CartDrawer />
+        </main>
         <Footer />
-        <Toaster position="top-right" />
+        <Toaster position="bottom-right" />
       </body>
     </html>
   );

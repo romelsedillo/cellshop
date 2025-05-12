@@ -21,7 +21,7 @@ const brands = [
 export const FeaturedBrands = () => {
   return (
     <section className="bg-white">
-      <div className="px-20 py-16 max-w-7xl mx-auto">
+      <div className="px-8 py-16 max-w-7xl mx-auto">
         <div className="w-full flex items-center justify-between mb-10">
           <div className="max-w-xl">
             <h1 className="font-bold text-4xl">Featured Brands</h1>
@@ -42,7 +42,7 @@ export const FeaturedBrands = () => {
           {brands.map((brand, index) => (
             <div key={index}>
               <Link href={brand.href}>
-                <Card className="group relative shadow-md w-40 h-40 rounded-lg border-gray-200 border overflow-hidden transition-transform duration-300">
+                <Card className="group relative shadow-md w-40 h-40 rounded-lg border border-gray-200  overflow-hidden transition-transform duration-300">
                   <CardContent className="w-full h-full flex items-center justify-center">
                     <div className="w-full">
                       <Image

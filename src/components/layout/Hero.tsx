@@ -55,7 +55,7 @@ const Hero = () => {
         ></div>
         {heroSlides.map((slide, index) => (
           <SwiperSlide key={index}>
-            <section className="flex flex-col-reverse lg:flex-row items-center justify-between py-12 lg:px-20 bg-white">
+            <section className="flex flex-col-reverse lg:flex-row items-center justify-between py-12 lg:px-12 bg-white">
               {/* Text */}
               <div className="w-full text-center lg:text-left max-w-xl">
                 <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
