@@ -22,7 +22,7 @@ const CartDrawer = () => {
 
       {/* Drawer Panel */}
       <div
-        className={`absolute right-0 top-0 h-full w-[90%] sm:w-[400px] bg-green-100 shadow-xl p-4 transform transition-transform duration-300 ${
+        className={`absolute right-0 top-0 h-full w-[90%] sm:w-[400px] bg-white shadow-xl p-4 transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

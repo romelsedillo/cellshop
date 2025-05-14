@@ -29,10 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-100`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col`}
       >
         <Navbar />
-        <main className="">
+        <main className="pt-16">
           {children}
           <CartDrawer />
         </main>

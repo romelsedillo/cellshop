@@ -5,9 +5,13 @@ import { useParams } from "next/navigation";
 import { useProductStore } from "@/store/useProductStore";
 import Image from "next/image";
 import { IoIosStar } from "react-icons/io";
+import { useCartStore } from "@/store/useCartStore";
+import { toast } from "sonner";
 
 const ProductDetailsPage: React.FC<Props> = () => {
   const [quantity, setQuantity] = useState(1);
+
+  const { addToCart } = useCartStore();
   const params = useParams();
   const productId = params.productId as string;
   const { allProducts, fetchAllProducts } = useProductStore();
@@ -19,19 +23,27 @@ const ProductDetailsPage: React.FC<Props> = () => {
   }, [fetchAllProducts, allProducts.length]);
 
   const product = allProducts.find((p) => p.id === productId);
-  console.log("Selected Product:", product);
+
+  const handleAddToCart = () => {
+    if (!product) return;
+
+    for (let i = 0; i < quantity; i++) {
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+      });
+    }
+
+    toast.success(`${product.name} added to cart!`);
+  };
 
   if (!product) {
     return <p className="p-4">Loading product details...</p>;
   }
-  const add = () => {
-    setQuantity((prev) => prev + 1);
-  };
-  const subtract = () => {
-    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
-  };
-  const price = product.price;
-  const subTotal = price * quantity;
+
+  const subTotal = product.price * quantity;
 
   return (
     <section className="w-full bg-white">
@@ -51,7 +63,7 @@ const ProductDetailsPage: React.FC<Props> = () => {
           </div>
         </div>
         <div className="col-span-1">
-          <div className="">
+          <div className="mb-2">
             {product.featured && (
               <span className="text-pink-500 border-2 border-pink-500 py-1 px-2 rounded text-center mr-4 mb-2">
                 Featured
@@ -72,39 +84,41 @@ const ProductDetailsPage: React.FC<Props> = () => {
           </p>
           <div className="mb-4 flex items-center gap-4">
             <div className="flex items-center gap-1">
-              <IoIosStar className="text-yellow-500" />
-              <IoIosStar className="text-yellow-500" />
-              <IoIosStar className="text-yellow-500" />
-              <IoIosStar className="text-yellow-500" />
-              <IoIosStar className="text-yellow-500" />
+              {[...Array(5)].map((_, index) => (
+                <IoIosStar key={index} className="text-yellow-500" />
+              ))}
             </div>
             <p className="text-gray-800 text-sm font-semibold">30 Reviews</p>
           </div>
           <p className="text-gray-700 text-sm mb-4 ">{product.description}</p>
           <div className="w-full flex items-center mb-2">
             <p className="mr-4">Quantity:</p>
-            <button
-              className="cursor-pointer w-8 h-8 border border-pink-500 rounded text-pink-500 mr-2"
-              onClick={() => add()}
-            >
-              +
-            </button>
-            <p className="mr-2">{quantity}</p>
-            <button
-              className="cursor-pointer h-8 w-8 border border-pink-500 rounded text-pink-500"
-              onClick={() => subtract()}
-            >
-              -
-            </button>
+            <div className="flex items-center gap-2 mt-2">
+              <button
+                className="cursor-pointer w-8 h-8 bg-pink-500 rounded text-white hover:bg-pink-600"
+                onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
+              >
+                -
+              </button>
+              <p className="mx-2">{quantity}</p>
+              <button
+                className="cursor-pointer h-8 w-8 bg-pink-500 rounded text-white hover:bg-pink-600"
+                onClick={() => setQuantity((prev) => prev + 1)}
+              >
+                +
+              </button>
+            </div>
           </div>
           <p className="mb-3">
             Sub Total:{" "}
             <span className="text-pink-500">
-              {" "}
               ₱ {subTotal.toLocaleString()}.00
             </span>
           </p>
-          <button className="bg-pink-500 w-full text-center text-white rounded py-2 cursor-pointer hover:bg-pink-600">
+          <button
+            className="bg-pink-500 w-full text-center text-white rounded py-2 cursor-pointer hover:bg-pink-600"
+            onClick={handleAddToCart}
+          >
             Add to cart
           </button>
         </div>

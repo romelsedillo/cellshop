@@ -5,8 +5,8 @@ import CartButton from "./CartButton";
 
 const Navbar = () => {
   return (
-    <nav className=" bg-white">
-      <div className="max-w-7xl py-5 px-8 flex justify-between items-center mx-auto">
+    <nav className="w-full z-10 bg-white fixed">
+      <div className="max-w-7xl mx-auto py-5 px-8 flex justify-between items-center">
         <div className="font-bold text-2xl">
           <Link href="/">
             Pick<span className="text-pink-500">Cell</span> Shop
@@ -29,7 +29,7 @@ const Navbar = () => {
         <div className="flex gap-4">
           <CartButton />
           <Link href="/login">
-            <User />
+            <User className="text-pink-500" />
           </Link>
         </div>
       </div>

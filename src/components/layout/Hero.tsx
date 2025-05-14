@@ -37,7 +37,7 @@ const heroSlides = [
 
 const Hero = () => {
   return (
-    <div className="relative w-full bg-white">
+    <div className="relative w-full">
       <Swiper
         modules={[Autoplay, Pagination, Navigation, Parallax]}
         autoplay={{ delay: 8000, disableOnInteraction: false }}

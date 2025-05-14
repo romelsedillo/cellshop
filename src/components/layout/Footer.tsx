@@ -114,7 +114,7 @@ const Footer = () => {
             </p>
             <div className="flex w-full max-w-sm items-center space-x-2">
               <Input
-                type="text"
+                type="email"
                 placeholder="Enter your email"
                 className="outline-none border-2 border-pink-500 focus-visible:border-pink-500 focus-visible:ring-pink-500/50 focus-visible:ring-[3px] h-8 rounded"
               />

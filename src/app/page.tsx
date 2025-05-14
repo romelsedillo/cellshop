@@ -5,7 +5,7 @@ import Testimony from "@/components/layout/Testimony";
 
 export default function Home() {
   return (
-    <div className="bg-slate-100">
+    <div className="">
       <Hero />
       <FeaturedProducts />
       <FeaturedBrands />
