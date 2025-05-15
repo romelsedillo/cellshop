@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Mail, Lock, Eye, EyeClosed, EyeOff } from "lucide-react";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import Link from "next/link";
-import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,6 +14,31 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("rememberedEmail");
+    if (savedEmail) {
+      setEmail(savedEmail);
+      setRememberMe(true);
+    }
+  }, []);
+
+  const handleLogin = () => {
+    setLoading(true);
+
+    const isAuthenticated =
+      email === "test@gmail.com" && password === "test123";
+    if (isAuthenticated) {
+      toast.success("Login success.");
+      if (rememberMe) {
+        localStorage.setItem("rememberedEmail", email);
+      }
+      router.push("/");
+    } else {
+      toast.error("Wrong email and password combination!");
+    }
+    setLoading(false);
+  };
 
   return (
     <div className="py-12 flex items-center justify-center bg-gray-100 px-4 ">
@@ -56,6 +81,7 @@ const Login = () => {
           {/* Login button */}
           <button
             disabled={loading}
+            onClick={handleLogin}
             className="w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded flex items-center justify-center cursor-pointer"
           >
             {loading ? <Loader2 className="animate-spin h-5 w-5" /> : "Login"}
@@ -63,8 +89,15 @@ const Login = () => {
         </div>
         <div className="flex items-center justify-between text-sm text-gray-600">
           <div className="flex items-center space-x-2">
-            <Checkbox id="terms" />
-            <label htmlFor="terms" className="text-pink-500">
+            <input
+              type="checkbox"
+              name=""
+              id="remember"
+              checked={rememberMe}
+              onChange={() => setRememberMe(!rememberMe)}
+              className="accent-pink-500"
+            />
+            <label htmlFor="remember" className="text-pink-500">
               Remember me.
             </label>
           </div>
