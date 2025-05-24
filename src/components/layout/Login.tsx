@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Mail, Lock, Eye, EyeClosed, EyeOff } from "lucide-react";
+import { Loader2, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import Link from "next/link";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabaseClient";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,11 +24,12 @@ const Login = () => {
     }
   }, []);
 
-  const handleLogin = () => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setLoading(true);
 
     const isAuthenticated =
-      email === "test@gmail.com" && password === "test123";
+      email === "test1@gmail.com" && password === "test123";
     if (isAuthenticated) {
       toast.success("Login success.");
       if (rememberMe) {
@@ -40,6 +42,31 @@ const Login = () => {
     setLoading(false);
   };
 
+  const handleGoogleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+
+    if (error) {
+      toast.error("Google login error!");
+      console.error("Google login error:", error.message);
+    } else {
+      toast.success("Google login success.");
+    }
+  };
+  const handleGithubLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "github",
+    });
+
+    if (error) {
+      toast.error("Github login error!");
+      console.error("Github login error:", error.message);
+    } else {
+      toast.success("Github login success.");
+    }
+  };
+
   return (
     <div className="py-12 flex items-center justify-center bg-gray-100 px-4 ">
       <div className="max-w-md w-full space-y-6 bg-white p-8 rounded shadow">
@@ -48,9 +75,9 @@ const Login = () => {
             Login to Your Account
           </h2>
         </div>
-        <div className="space-y-4">
+        <form onSubmit={handleLogin} className="space-y-4">
           {/* Email Field */}
-          <div className="flex items-center border rounded px-3 py-2">
+          <div className="flex items-center border rounded px-3 py-2 focus-within:border-pink-500">
             <Mail className="h-4 w-4 text-pink-500 mr-2" />
             <input
               type="email"
@@ -61,7 +88,7 @@ const Login = () => {
             />
           </div>
           {/* Password Field */}
-          <div className="relative flex items-center border rounded px-3 py-2">
+          <div className="relative flex items-center border rounded px-3 py-2 focus-within:border-pink-500">
             <Lock className="h-4 w-4 text-pink-500 mr-2" />
             <input
               type={showPassword ? "text" : "password"}
@@ -80,13 +107,13 @@ const Login = () => {
           </div>
           {/* Login button */}
           <button
-            disabled={loading}
-            onClick={handleLogin}
+            disabled={loading || !email || !password}
+            type="submit"
             className="w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded flex items-center justify-center cursor-pointer"
           >
             {loading ? <Loader2 className="animate-spin h-5 w-5" /> : "Login"}
           </button>
-        </div>
+        </form>
         <div className="flex items-center justify-between text-sm text-gray-600">
           <div className="flex items-center space-x-2">
             <input
@@ -112,10 +139,19 @@ const Login = () => {
           Or continue with
         </div>
         <div className="flex gap-4">
-          <button className="w-full border rounded py-2 flex items-center justify-center text-sm cursor-pointer hover:bg-gray-50">
+          {/* ---------------GOOGLE BUTTON---------------- */}
+          <button
+            onClick={handleGoogleLogin}
+            className="w-full border rounded py-2 flex items-center justify-center text-sm cursor-pointer hover:bg-gray-50"
+          >
             <FaGoogle className="h-4 w-4 mr-2" /> Google
           </button>
-          <button className="w-full border rounded py-2 flex items-center justify-center text-sm cursor-pointer hover:bg-gray-50">
+
+          {/* ---------------GITHUB BUTTON---------------- */}
+          <button
+            onClick={handleGithubLogin}
+            className="w-full border rounded py-2 flex items-center justify-center text-sm cursor-pointer hover:bg-gray-50"
+          >
             <FaGithub className="h-4 w-4 mr-2" /> GitHub
           </button>
         </div>
