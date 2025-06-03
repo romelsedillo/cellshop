@@ -18,32 +18,56 @@ const Register = () => {
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    toast.success("Register success!");
-    setLoading(false);
+
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      toast.success(
+        "Registration success! Please check your email to confirm."
+      );
+      console.log("Signup data:", data);
+    } catch (err: any) {
+      console.error("Signup error!", err.message);
+      toast.error("Error signing up! " + err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGoogleRegister = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-    });
-
-    if (error) {
-      toast.error("Google login error");
-      console.error("Google login error:", error.message);
-    } else {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+      });
+      if (error) {
+        throw new Error("Google login error");
+      }
       toast.success("Register success!");
+    } catch (error: any) {
+      console.error("Google login error:", error.message);
+      toast.error("Google login failed. Please try again.");
     }
   };
 
   const handleGithubRegister = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "github",
-    });
-    if (error) {
-      toast.error("Github login error");
-      console.log("Github login error:", error.message);
-    } else {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "github",
+      });
+      if (error) {
+        throw new Error("Github login error.");
+      }
       toast.success("Register success!");
+    } catch (error: any) {
+      console.error("Github login error:", error.message);
+      toast.error("Github login failed. Please try again.");
     }
   };
   return (

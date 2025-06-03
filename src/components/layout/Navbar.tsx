@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import CartButton from "./CartButton";
 import { Button } from "../ui/button";
@@ -8,10 +8,13 @@ import UserHoverCard from "./UserHoverCard";
 import { useAuthStore } from "@/store/useAuthStore";
 
 const Navbar = () => {
+  const [loading, setLoading] = useState(false);
   const { user, fetchUser, logout } = useAuthStore();
 
   useEffect(() => {
+    setLoading(true);
     fetchUser();
+    setLoading(false);
   }, [fetchUser]);
 
   return (
@@ -35,7 +38,7 @@ const Navbar = () => {
         </div>
         <div className="flex items-center gap-4">
           <CartButton />
-          {user && <UserHoverCard />}
+          {loading ? "Loading" : user && <UserHoverCard /> }
           {!user && (
             <Button
               asChild

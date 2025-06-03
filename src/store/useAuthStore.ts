@@ -5,6 +5,7 @@ import { User } from "@supabase/supabase-js";
 type AuthStore = {
   user: User | null;
   loading: boolean;
+  authenticated: boolean;
   fetchUser: () => Promise<void>;
   logout: () => Promise<void>;
 };
@@ -12,16 +13,13 @@ type AuthStore = {
 export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
   loading: true,
+  authenticated: false,
 
   fetchUser: async () => {
-    set({ loading: true });
-    const { data, error } = await supabase.auth.getUser();
-    if (error) {
-      console.log("Error fetching", error.message);
-      set({ user: null, loading: false });
-    } else {
-      set({ user: data.user, loading: false });
-    }
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    set({ user, loading: false });
   },
 
   logout: async () => {

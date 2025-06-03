@@ -7,8 +7,10 @@ import { FaGoogle, FaGithub } from "react-icons/fa";
 import Link from "next/link";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabaseClient";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const Login = () => {
+  const { fetchUser, user } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -28,42 +30,66 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    const isAuthenticated =
-      email === "test1@gmail.com" && password === "test123";
-    if (isAuthenticated) {
-      toast.success("Login success.");
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      fetchUser();
+
+      toast.success("Login success!");
+
       if (rememberMe) {
         localStorage.setItem("rememberedEmail", email);
+      } else {
+        localStorage.removeItem("rememberedEmail");
       }
+
       router.push("/");
-    } else {
+    } catch (err: any) {
+      console.log("Login error!", err.message);
       toast.error("Wrong email and password combination!");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleGoogleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-    });
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+      });
 
-    if (error) {
-      toast.error("Google login error!");
-      console.error("Google login error:", error.message);
-    } else {
-      toast.success("Google login success.");
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      toast.success("Redirecting to Google login...");
+    } catch (err: any) {
+      console.error("Google login error:", err.message);
+      toast.error("Google login failed. Please try again.");
     }
   };
-  const handleGithubLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "github",
-    });
 
-    if (error) {
-      toast.error("Github login error!");
-      console.error("Github login error:", error.message);
-    } else {
-      toast.success("Github login success.");
+  const handleGithubLogin = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "github",
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      toast.success("Redirecting to Google login...");
+    } catch (err: any) {
+      console.error("Google login error:", err.message);
+      toast.error("Google login failed. Please try again.");
     }
   };
 
