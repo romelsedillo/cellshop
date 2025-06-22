@@ -1,9 +1,10 @@
 import UserAccountSideNav from "@/components/layout/UserAccountSideNav";
 import React from "react";
-import { SquarePen, UserRound, Calendar } from "lucide-react";
+import { SquarePen, UserRound } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Calendar from "@/components/layout/Calendar";
 
 const ProfilePage = () => {
   return (
@@ -31,14 +32,9 @@ const ProfilePage = () => {
                   <Input type="text" placeholder="Sedillo" />
                 </div>
               </div>
-              <div className="flex items-center border rounded px-3 py-2 focus-within:border-pink-500">
-                <Calendar className="h-4 w-4 text-pink-500 mr-2" />
-                <input
-                  type="email"
-                  className="w-full outline-none"
-                  placeholder="Email"
-                  value=""
-                />
+              <div className="flex gap-1">
+                <Label>Email:</Label>
+                <Input type="email" placeholder="Email" />
               </div>
               <div className="flex items-center gap-2">
                 <p>Gender:</p>
@@ -61,10 +57,9 @@ const ProfilePage = () => {
                 <Input type="text" placeholder="09123456789" />
               </div>
               <div className="flex gap-1">
-                <Label>Phone:</Label>
-                <Input type="text" placeholder="09123456789" />
+                <Label>Date of Birth:</Label>
+                <Calendar />
               </div>
-
               <Button>Save</Button>
             </form>
             <div className="flex flex-col items-center">
