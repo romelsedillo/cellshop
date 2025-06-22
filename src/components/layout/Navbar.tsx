@@ -37,8 +37,14 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex items-center gap-4">
+          {loading
+            ? "Loading"
+            : user && (
+                <Link href="/user-account/profile">
+                  <UserHoverCard />
+                </Link>
+              )}
           <CartButton />
-          {loading ? "Loading" : user && <UserHoverCard /> }
           {!user && (
             <Button
               asChild

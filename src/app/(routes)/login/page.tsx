@@ -7,18 +7,18 @@ import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(true);
-  const { user, fetchUser } = useAuthStore();
+  const { fetchUser } = useAuthStore();
   const router = useRouter();
 
   useEffect(() => {
     const init = async () => {
-      await fetchUser(); // fetch user data
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // wait 2 seconds
+      await fetchUser();
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       if (useAuthStore.getState().user) {
-        router.push("/"); // redirect if user is already logged in
+        router.push("/");
       } else {
-        setLoading(false); // show login UI only after delay
+        setLoading(false);
       }
     };
 

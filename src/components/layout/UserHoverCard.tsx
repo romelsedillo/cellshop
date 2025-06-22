@@ -16,32 +16,35 @@ const UserHoverCard = () => {
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
-        <User className="text-pink-500 cursor-pointer hover:opacity-80" />
+        <button className=" bg-gray-100 hover:cursor-pointer p-2 rounded">
+          Hi, <span className="font-semibold">{firstName}</span>
+        </button>
+        {/* <User className="text-pink-500 cursor-pointer hover:opacity-80" /> */}
       </HoverCardTrigger>
       <HoverCardContent align="center" className="w-80">
         <div className="flex flex-col gap-3">
           <div>
             <h4 className="text-lg font-semibold">
-              Hi, <span className=" capitalize">{firstName}</span>
+              <span className=" capitalize">{firstName}</span>
             </h4>
             <p className="text-sm text-gray-500">Welcome back!</p>
           </div>
 
           <div className="flex flex-col gap-2 border-y py-3">
             <Link
-              href="/profile"
+              href="/user-account/profile"
               className="flex items-center gap-2 hover:text-pink-500 transition"
             >
               <User className="w-5 h-5" /> Profile
             </Link>
             <Link
-              href="/orders"
+              href="/user-account/orders"
               className="flex items-center gap-2 hover:text-pink-500 transition"
             >
               <ListOrdered className="w-5 h-5" /> Orders
             </Link>
             <Link
-              href="/favorites"
+              href="/user-account/favorites"
               className="flex items-center gap-2 hover:text-pink-500 transition"
             >
               <BookHeart className="w-5 h-5" /> Favorites

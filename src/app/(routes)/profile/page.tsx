@@ -1,63 +1,42 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
-import { toast } from "sonner";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
-import { supabase } from "@/lib/supabaseClient";
-import { checkUser } from "@/lib/checkUser";
+import { useRouter } from "next/navigation";
+import Profile from "@/components/layout/Profile";
 
 const ProfilePage = () => {
-  const { fetchUser, logout, user } = useAuthStore();
+  const [loading, setLoading] = useState(true);
+  const { fetchUser } = useAuthStore();
   const router = useRouter();
-  useEffect(() => {
-    if (user) {
-      router.push("/");
-    }
-  }, [user, router]);
 
   useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
+    const init = async () => {
+      await fetchUser();
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
-  console.log(user);
-  const handleLogout = async () => {
-    logout();
-    toast.success("Signed out successfully.");
-    router.push("/login");
-  };
+      if (!useAuthStore.getState().user) {
+        router.push("/");
+      } else {
+        setLoading(false);
+      }
+    };
 
-  if (!user) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p className="text-lg text-gray-600">Loading profile...</p>
-      </div>
-    );
-  }
+    init();
+  }, [router, fetchUser]);
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-16">
-      <h1 className="text-2xl font-bold mb-6">My Profile</h1>
-      <div className="bg-white p-6 rounded-lg shadow space-y-4">
-        <div>
-          <p className="text-sm text-gray-500">Full Name</p>
-          <p className="text-lg font-semibold">
-            {user.user_metadata?.name?.split(" ")[0] || "No name provided"}
-          </p>
+    <div className="max-w-5xl mx-auto px-4 py-16">
+      {loading ? (
+        <div className="flex justify-center items-center h-[50%vh]">
+          <div className="w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full animate-spin" />
         </div>
-        <div>
-          <p className="text-sm text-gray-500">Email</p>
-          <p className="text-lg font-semibold">{user.email}</p>
+      ) : (
+        <div className="w-full bg-gray-200">
+          <h2>My Account</h2>
+          Link
         </div>
-        <Button
-          onClick={handleLogout}
-          className="w-full mt-4 flex items-center justify-center gap-2 bg-pink-500 hover:bg-pink-600"
-        >
-          <LogOut size={18} /> Logout
-        </Button>
-      </div>
+      )}
     </div>
   );
 };
