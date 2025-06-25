@@ -1,11 +1,34 @@
+"use client";
+
 import Link from "next/link";
 import { User, ListOrdered, BookHeart } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function UserAccountLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
+  const links = [
+    {
+      name: "Profile",
+      pathname: "/user-account/profile",
+      icon: <User className="w-5 h-5" />,
+    },
+    {
+      name: "Orders",
+      pathname: "/user-account/orders",
+      icon: <ListOrdered className="w-5 h-5" />,
+    },
+    {
+      name: "Favorites",
+      pathname: "/user-account/favorites",
+      icon: <BookHeart className="w-5 h-5" />,
+    },
+  ];
+
   return (
     <div className="max-w-6xl min-h-screen mx-auto grid grid-cols-12 py-6">
       {/* Sidebar */}
@@ -19,24 +42,22 @@ export default function UserAccountLayout({
           </div>
         </div>
         <nav className="space-y-2 w-full">
-          <Link
-            href="/user-account/profile"
-            className="flex items-center gap-2 hover:text-pink-500 transition border-l-2 border-pink-500 pl-4"
-          >
-            <User className="w-5 h-5" /> Profile
-          </Link>
-          <Link
-            href="/user-account/orders"
-            className="flex items-center gap-2 hover:text-pink-500 transition"
-          >
-            <ListOrdered className="w-5 h-5" /> Orders
-          </Link>
-          <Link
-            href="/user-account/favorites"
-            className="flex items-center gap-2 hover:text-pink-500 transition"
-          >
-            <BookHeart className="w-5 h-5" /> Favorites
-          </Link>
+          {links.map((link) => {
+            const isActive = pathname === link.pathname;
+            return (
+              <Link
+                key={link.name}
+                href={link.pathname}
+                className={`flex items-center gap-2 transition-all duration-300 ease-in-out ${
+                  isActive
+                    ? "border-l-2 border-pink-500 pl-4 text-pink-600"
+                    : "border-l-2 border-transparent pl-2 hover:pl-4 hover:border-pink-300 hover:text-pink-500"
+                }`}
+              >
+                {link.icon} {link.name}
+              </Link>
+            );
+          })}
         </nav>
       </aside>
 

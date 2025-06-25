@@ -6,8 +6,10 @@ import CartButton from "./CartButton";
 import { Button } from "../ui/button";
 import UserHoverCard from "./UserHoverCard";
 import { useAuthStore } from "@/store/useAuthStore";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+  const pathname = usePathname();
   const [loading, setLoading] = useState(false);
   const { user, fetchUser, logout } = useAuthStore();
 
@@ -16,6 +18,12 @@ const Navbar = () => {
     fetchUser();
     setLoading(false);
   }, [fetchUser]);
+
+  const links = [
+    { name: "Home", path: "/" },
+    { name: "Products", path: "/products" },
+    { name: "Checkout", path: "/checkout" },
+  ];
 
   return (
     <nav className="w-full z-10 bg-white fixed">
@@ -26,15 +34,30 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex gap-4 font-semibold text-sm">
-          <Link href="/" className=" hover:underline">
-            Home
-          </Link>
-          <Link href="/products" className=" hover:underline">
-            Products
-          </Link>
-          <Link href="/checkout" className=" hover:underline">
-            Checkout
-          </Link>
+          {links.map((link) => {
+            const isActive = pathname === link.path;
+            return (
+              <Link
+                key={link.name}
+                href={link.path}
+                className={`relative pb-1 transition-colors duration-300 ${
+                  isActive
+                    ? "text-pink-600"
+                    : "text-gray-700 hover:text-pink-500"
+                }`}
+              >
+                <span
+                  className={`absolute bottom-0 left-0 h-0.5 w-full transition-all duration-300 ${
+                    isActive
+                      ? "bg-pink-500"
+                      : "bg-pink-500 scale-x-0 group-hover:scale-x-100"
+                  }`}
+                  style={{ transformOrigin: "left" }}
+                />
+                {link.name}
+              </Link>
+            );
+          })}
         </div>
         <div className="flex items-center gap-4">
           {loading

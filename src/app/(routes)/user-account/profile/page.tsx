@@ -8,9 +8,9 @@ import Calendar from "@/components/layout/Calendar";
 const ProfilePage = () => {
   return (
     <div className="">
-      <h2 className="text-4xl font-semibold mb-6">Account Setting</h2>
+      <h2 className="text-4xl font-semibold mb-6">Account Settings</h2>
       <div className="grid grid-cols-12">
-        <form className="flex flex-col items-start gap-4 col-span-8 pl-4">
+        <form className="flex flex-col items-start gap-4 col-span-7 pl-4">
           <div className="flex gap-4">
             <div className="flex flex-col">
               <Label className="mb-2">Name:</Label>
@@ -27,13 +27,29 @@ const ProfilePage = () => {
           </div>
           <div className="flex items-center">
             <Label className="mr-2">Gender:</Label>
-            <div className="flex items-center gap-1">
-              <Input type="radio" value="male" id="male" name="gender" />
-              <Label htmlFor="male">Male</Label>
+            <div className="flex items-center gap-1 mr-2">
+              <Input
+                type="radio"
+                value="male"
+                id="male"
+                name="gender"
+                className="cursor-pointer"
+              />
+              <Label htmlFor="male" className="cursor-pointer">
+                Male
+              </Label>
             </div>
             <div className="flex items-center gap-1">
-              <Input type="radio" value="female" id="female" name="gender" />
-              <Label htmlFor="female">Female</Label>
+              <Input
+                type="radio"
+                value="female"
+                id="female"
+                name="gender"
+                className="cursor-pointer"
+              />
+              <Label htmlFor="female" className="cursor-pointer">
+                Female
+              </Label>
             </div>
           </div>
           <div className="flex flex-col">
@@ -44,10 +60,10 @@ const ProfilePage = () => {
             <Label className="mb-2">Date of Birth:</Label>
             <Calendar />
           </div>
-          <Button>Save</Button>
+          <Button className="cursor-pointer">Save</Button>
         </form>
 
-        <div className="col-span-4 flex flex-col items-center">
+        <div className="col-span-5 flex flex-col items-center">
           <div className="flex items-center justify-center bg-gray-100 h-40 w-40 rounded-full mb-4">
             <UserRound className="w-8 text-gray-500" />
           </div>
