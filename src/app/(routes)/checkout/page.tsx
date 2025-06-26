@@ -5,11 +5,13 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { loadStripe } from "@stripe/stripe-js";
 
 const CheckoutPage = () => {
-  const { cart, removeFromCart, clearCart } = useCartStore();
+  const { cart, removeFromCart, increaseQty, decreaseQty, clearCart } =
+    useCartStore();
   const router = useRouter();
-
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
@@ -20,16 +22,27 @@ const CheckoutPage = () => {
     setTotalPrice(total);
   }, [cart]);
 
-  const handleCheckout = () => {
-    if (cart.length === 0) {
-      toast.warning("Your cart is empty!");
-      return;
-    }
+  const handleRemoveFromCart = (item) => {
+    removeFromCart(item.id);
+    toast.warning("Checkout successful!");
+  };
+  const stripePromise = loadStripe(
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+  );
+  const handleCheckout = async () => {
+    const stripe = await stripePromise;
 
-    
-    toast.success("Checkout successful!");
-    clearCart();
-    router.push("/");
+    const res = await fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cartItems: cart }),
+    });
+
+    const data = await res.json();
+
+    if (data.id) {
+      stripe?.redirectToCheckout({ sessionId: data.id });
+    }
   };
 
   return (
@@ -55,16 +68,39 @@ const CheckoutPage = () => {
                   <p className="text-gray-600 text-sm">
                     ₱ {item.price.toLocaleString()}
                   </p>
-                  <p className="text-gray-500 text-sm">
-                    Quantity: {item.quantity}
+                  <div className="w-full flex items-center justify-between">
+                    <div className="flex items-center">
+                      <p className="text-gray-700 text-md mr-2">Quantity:</p>
+                      <Button
+                        size="sm"
+                        onClick={() => decreaseQty(item.id)}
+                        className="bg-pink-500 text-white rounded hover:bg-pink-600 text-sm cursor-pointer"
+                      >
+                        −
+                      </Button>
+                      <span className="mx-2">{item.quantity}</span>
+
+                      <Button
+                        size="sm"
+                        onClick={() => increaseQty(item.id)}
+                        className="bg-pink-500 text-white rounded hover:bg-pink-600 text-sm cursor-pointer"
+                      >
+                        +
+                      </Button>
+                    </div>
+
+                    <Button
+                      onClick={() => handleRemoveFromCart(item)}
+                      className="bg-red-500 text-white text-sm rounded hover:bg-red-600 transition *:cursor-pointer"
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                  <p className="mt-2 text-sm text-gray-500">
+                    Subtotal: ₱ {(item.price * item.quantity).toLocaleString()}
+                    .00
                   </p>
                 </div>
-                <button
-                  onClick={() => removeFromCart(item.id)}
-                  className="text-red-500 hover:underline text-sm"
-                >
-                  Remove
-                </button>
               </div>
             ))}
           </div>
@@ -80,7 +116,7 @@ const CheckoutPage = () => {
 
           <button
             onClick={handleCheckout}
-            className="w-full bg-pink-500 text-white py-3 rounded hover:bg-pink-600 transition"
+            className="w-full bg-pink-500 text-white py-3 rounded hover:bg-pink-600 transition cursor-pointer"
           >
             Confirm Checkout
           </button>
