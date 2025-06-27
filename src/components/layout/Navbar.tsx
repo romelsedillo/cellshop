@@ -6,10 +6,17 @@ import CartButton from "./CartButton";
 import { Button } from "../ui/button";
 import UserHoverCard from "./UserHoverCard";
 import { useAuthStore } from "@/store/useAuthStore";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+
+const links = [
+  { name: "Home", path: "/" },
+  { name: "Products", path: "/products" },
+  { name: "Checkout", path: "/checkout" },
+];
 
 const Navbar = () => {
   const pathname = usePathname();
+  const route = useRouter();
   const [loading, setLoading] = useState(false);
   const { user, fetchUser, logout } = useAuthStore();
 
@@ -19,11 +26,10 @@ const Navbar = () => {
     setLoading(false);
   }, [fetchUser]);
 
-  const links = [
-    { name: "Home", path: "/" },
-    { name: "Products", path: "/products" },
-    { name: "Checkout", path: "/checkout" },
-  ];
+  const handleLogout = () => {
+    logout();
+    route.push("/login");
+  };
 
   return (
     <nav className="w-full z-10 bg-white fixed">
@@ -79,7 +85,7 @@ const Navbar = () => {
           {user && (
             <Button
               className="bg-pink-500 hover:bg-pink-600 cursor-pointer"
-              onClick={logout}
+              onClick={handleLogout}
             >
               Logout
             </Button>

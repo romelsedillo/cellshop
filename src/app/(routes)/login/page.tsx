@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Login from "@/components/layout/Login";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "@/components/layout/LoadingSpinner";
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(true);
@@ -25,17 +26,7 @@ const LoginPage = () => {
     init();
   }, [router, fetchUser]);
 
-  return (
-    <>
-      {loading ? (
-        <div className="flex justify-center items-center min-h-screen">
-          <div className="w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full animate-spin" />
-        </div>
-      ) : (
-        <Login />
-      )}
-    </>
-  );
+  return <>{loading ? <LoadingSpinner /> : <Login />}</>;
 };
 
 export default LoginPage;
