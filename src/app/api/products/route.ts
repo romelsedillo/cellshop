@@ -20,12 +20,12 @@ export async function GET() {
         description: product.description,
         featured: product.metadata.featured === "true",
         brand: product.metadata.brand,
-        isNew: product.metadata.isNew === "true",
+        latest: product.metadata.latest === "true",
       };
     });
-    console.log(products);
     return NextResponse.json(enrichedProducts);
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { error: "Failed to fetch Stripe products" },
       { status: 500 }

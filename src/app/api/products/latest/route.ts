@@ -10,8 +10,8 @@ export async function GET() {
     const products = await stripe.products.list({ limit: 100 });
     const prices = await stripe.prices.list({ limit: 100 });
 
-    const newArrivals = products.data
-      .filter((p) => p.metadata.isNew === "true")
+    const latest = products.data
+      .filter((p) => p.metadata.latest === "true")
       .map((product) => {
         const price = prices.data.find((p) => p.product === product.id);
         return {
@@ -20,17 +20,15 @@ export async function GET() {
           image: product.images[0] || "",
           price: price?.unit_amount ? price.unit_amount / 100 : 0,
           description: product.description,
-          featured: product.metadata.featured === "true",
+          latest: product.metadata.latest === "true",
           brand: product.metadata.brand,
-          isNew: true,
         };
       });
-
-    return NextResponse.json(newArrivals);
+    return NextResponse.json(latest);
   } catch (error) {
-    console.error("New arrival error:", error);
+    console.error("Latest products error.", error);
     return NextResponse.json(
-      { error: "Failed to fetch new arrivals" },
+      { error: "Failed to fetch latest products." },
       { status: 500 }
     );
   }

@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import Featured from "./Featured";
-import NewArrivals from "./NewArrivals";
+import Latest from "./Latest";
 
 export const FeaturedProducts = () => {
   return (
@@ -28,7 +28,7 @@ export const FeaturedProducts = () => {
               value="new-arrivals"
               className="rounded cursor-pointer text-pink-500 data-[state=active]:bg-pink-500 data-[state=active]:text-white px-6 py-3"
             >
-              New Arrivals
+              Latest
             </TabsTrigger>
           </TabsList>
           {/* Featured */}
@@ -38,7 +38,7 @@ export const FeaturedProducts = () => {
 
           {/* New Arrivals */}
           <TabsContent value="new-arrivals">
-            <NewArrivals />
+            <Latest />
           </TabsContent>
         </Tabs>
         <div className="text-center">

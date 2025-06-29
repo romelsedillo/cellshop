@@ -6,5 +6,5 @@ export type Product = {
   brand: string;
   price: number;
   featured?: boolean;
-  isNew?: boolean;
+  latest?: boolean;
 };

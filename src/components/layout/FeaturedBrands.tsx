@@ -7,15 +7,19 @@ import xiaomi from "@/images/brand/xiaomi.jpeg";
 import OnePlus from "@/images/brand/OnePlus.jpg";
 import infinix from "@/images/brand/infinix.png";
 import vivo from "@/images/brand/vivo.png";
+import Google from "@/images/brand/google-pixel.jpg";
+import Sony from "@/images/brand/Sony-Xperia.jpg";
 import Image from "next/image";
 
 const brands = [
-  { name: "Apple", href: "/brands/apple", image: iPhone },
-  { name: "Samsung", href: "/brands/samsung", image: samsung },
-  { name: "Vivo", href: "/brands/vivo", image: vivo },
-  { name: "OnePlus", href: "/brands/oneplus", image: OnePlus },
-  { name: "Xiaomi", href: "/brands/xiaomi", image: xiaomi },
-  { name: "Infinix", href: "/brands/infinix", image: infinix },
+  { name: "Apple", href: "/brand/apple", image: iPhone },
+  { name: "Samsung", href: "/brand/samsung", image: samsung },
+  { name: "Vivo", href: "/brand/vivo", image: vivo },
+  { name: "OnePlus", href: "/brand/oneplus", image: OnePlus },
+  { name: "Xiaomi", href: "/brand/xiaomi", image: xiaomi },
+  { name: "Infinix", href: "/brand/infinix", image: infinix },
+  { name: "Google Pixel", href: "/brand/google-pixel", image: Google },
+  { name: "Sony Xperia", href: "/brand/sony-xperia", image: Sony },
 ];
 
 export const FeaturedBrands = () => {
@@ -31,25 +35,27 @@ export const FeaturedBrands = () => {
             </p>
           </div>
           <div>
-            <Link href="/brands" className="flex items-center gap-2">
+            <Link href="/all-brands" className="flex items-center gap-2">
               <span className="hover:underline">View all brands</span>
               <ArrowRight />
             </Link>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {brands.map((brand, index) => (
-            <div key={index}>
+            <div
+              key={index}
+              className="shadow-lg shadow-slate-400 rounded-md overflow-hidden"
+            >
               <Link href={brand.href}>
-                <Card className="group relative shadow-md w-40 h-40 rounded-lg border border-gray-200  overflow-hidden transition-transform duration-300">
-                  <CardContent className="w-full h-full flex items-center justify-center">
+                <div className="group relative w-72 h-40 transition-transform duration-300">
+                  <div className="w-full h-full flex items-center justify-center">
                     <div className="w-full">
                       <Image
                         alt={brand.name}
                         src={brand.image}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        className="w-full h-auto object-fill group-hover:scale-110 transition-transform duration-500"
                       />
                     </div>
                     <div className="absolute w-full inset-0 bg-black/40" />
@@ -59,8 +65,8 @@ export const FeaturedBrands = () => {
                         View products
                       </p>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </Link>
             </div>
           ))}
