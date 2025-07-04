@@ -9,12 +9,16 @@ import { toast } from "sonner";
 import { ShoppingCart } from "lucide-react";
 import { Heart } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
+import { FavoriteButton } from "./FavoriteButton";
+import { useAuthStore } from "@/store/useAuthStore";
 
 type Props = {
   product: Product;
 };
 
 const ProductCard: React.FC<Props> = ({ product }) => {
+  const { user } = useAuthStore();
+
   const handleAddToCart = (product: any) => {
     useCartStore.getState().addToCart({
       id: product.id,
@@ -30,7 +34,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         {/* Top: Badges + Wishlist */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
-            {product.isNew && (
+            {product.latest && (
               <Badge className="rounded bg-white font-semibold text-pink-500 border border-pink-200">
                 New
               </Badge>
@@ -41,17 +45,17 @@ const ProductCard: React.FC<Props> = ({ product }) => {
               </Badge>
             )}
           </div>
-          <Button
-            size="icon"
-            variant="outline"
-            className="h-8 w-8 rounded-full cursor-pointer border border-pink-200"
-            onClick={(e) => {
-              e.preventDefault();
-              toast.success("Added to wishlist!");
-            }}
-          >
-            <Heart className="h-4 w-4 text-pink-500" />
-          </Button>
+          {user ? (
+            <FavoriteButton productId={product.id} />
+          ) : (
+            <Button
+              size="icon"
+              variant="outline"
+              className="h-8 w-8 rounded-full cursor-pointer border border-pink-200"
+            >
+              <Heart className="h-4 w-4 text-pink-500" />
+            </Button>
+          )}
         </div>
         <div className="flex flex-col items-center">
           {/* Image */}
