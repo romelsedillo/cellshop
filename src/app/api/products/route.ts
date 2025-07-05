@@ -32,26 +32,3 @@ export async function GET() {
     );
   }
 }
-
-// {
-//   id: 'prod_SCX8tmWWhBYuvO',
-//   object: 'product',
-//   active: true,
-//   attributes: [],
-//   created: 1745671340,
-//   default_price: 'price_1RI83lGaEbCLbjvDt6Xb0Vmg',
-//   description: 'The all-new iPad Air features a stunning 13-inch Liquid Retina display and is powered by the Apple M3 chip for exceptional performance. It supports the Apple Pencil Pro, Magic Keyboard, 5G, Wi-Fi 6E, and Touch ID, making it perfect for work, creativity, and entertainment on the go.',
-//   images: [Array],
-//   livemode: false,
-//   marketing_features: [],
-//   metadata: [Object],
-//   name: 'Apple iPad Air 13 (2025)',
-//   package_dimensions: null,
-//   shippable: null,
-//   statement_descriptor: null,
-//   tax_code: null,
-//   type: 'service',
-//   unit_label: null,
-//   updated: 1746151701,
-//   url: null
-// }

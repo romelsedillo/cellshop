@@ -1,4 +1,3 @@
-import { toast } from "sonner";
 import { supabase } from "./supabaseClient";
 
 // This file contains functions to manage favorites using Supabase
@@ -39,13 +38,6 @@ export async function removeFavorite(productId: string) {
     .match({ product_id: productId, user_id: user.id });
 
   if (error) throw error;
-}
-
-export async function getFavorites() {
-  const { data, error } = await supabase.from("favorites").select("product_id");
-
-  if (error) throw error;
-  return data?.map((fav) => fav.product_id) ?? [];
 }
 
 export async function isFavorite(productId: string) {
