@@ -1,7 +1,5 @@
 import { supabase } from "./supabaseClient";
 
-// This file contains functions to manage favorites using Supabase
-// It includes adding, removing, checking if a product is favorited, and retrieving all favorites
 export async function addFavorite(productId: string) {
   const {
     data: { user },
@@ -38,6 +36,19 @@ export async function removeFavorite(productId: string) {
     .match({ product_id: productId, user_id: user.id });
 
   if (error) throw error;
+}
+
+
+
+export async function getFavoritesForUser(userId: string) {
+  const { data, error } = await supabase
+    .from("favorites")
+    .select("product_id")
+    .eq("user_id", userId);
+
+  if (error) throw error;
+
+  return data?.map((fav) => fav.product_id) ?? [];
 }
 
 export async function isFavorite(productId: string) {
