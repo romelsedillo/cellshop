@@ -4,21 +4,23 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useProductStore } from "@/store/useProductStore";
-import { getFavoriteIds } from "@/lib/queries";
+import { getFavoriteIds, removeFavorite } from "@/lib/queries";
+import { useCartStore } from "@/store/useCartStore";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 const FavoritesPage = () => {
   const { user } = useAuthStore();
   const { allProducts, fetchAllProducts } = useProductStore();
+  const { addToCart } = useCartStore();
 
   const [favoriteProducts, setFavoriteProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch all products on mount
   useEffect(() => {
     fetchAllProducts();
   }, [fetchAllProducts]);
 
-  // Fetch favorite IDs and filter products
   useEffect(() => {
     const loadFavorites = async () => {
       if (!user) {
@@ -43,6 +45,23 @@ const FavoritesPage = () => {
     loadFavorites();
   }, [user, allProducts]);
 
+  const handleAddToCart = (product: any) => {
+    addToCart(product);
+    toast.success("Added to cart!");
+  };
+
+  const handleRemove = async (productId: string) => {
+    try {
+      await removeFavorite(productId);
+      setFavoriteProducts((prev) =>
+        prev.filter((item) => item.id !== productId)
+      );
+      toast.success("Removed from favorites.");
+    } catch (error) {
+      toast.error("Failed to remove from favorites.");
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -56,29 +75,55 @@ const FavoritesPage = () => {
       <h2 className="text-2xl font-bold text-gray-800">My Favorites</h2>
 
       {favoriteProducts.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {favoriteProducts.map((item) => (
-            <div
-              key={item.id}
-              className="border rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition"
-            >
-              <Image
-                src={item.image}
-                alt={item.name}
-                width={400}
-                height={300}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4 space-y-1">
-                <h3 className="text-lg font-semibold text-gray-800">
-                  {item.name}
-                </h3>
-                <p className="text-pink-600 font-medium">
-                  ₱{item.price.toLocaleString()}
-                </p>
-              </div>
-            </div>
-          ))}
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-sm text-left border rounded-lg overflow-hidden">
+            <thead className="bg-gray-100 text-gray-600">
+              <tr>
+                <th className="px-4 py-3">Image</th>
+                <th className="px-4 py-3">Name</th>
+                <th className="px-4 py-3">Price</th>
+                <th className="px-4 py-3 text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {favoriteProducts.map((item) => (
+                <tr key={item.id} className="border-t hover:bg-gray-50">
+                  <td className="px-4 py-3">
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      width={80}
+                      height={80}
+                      className="rounded"
+                    />
+                  </td>
+                  <td className="px-4 py-3 font-medium text-gray-800">
+                    {item.name}
+                  </td>
+                  <td className="px-4 py-3 text-pink-600 font-semibold">
+                    ₱{item.price.toLocaleString()}
+                  </td>
+                  <td className="px-4 py-3 text-center space-x-2">
+                    <Button
+                      size="sm"
+                      className="bg-pink-500 text-white hover:bg-pink-600"
+                      onClick={() => handleAddToCart(item)}
+                    >
+                      Add to Cart
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="border-red-400 text-red-500 hover:bg-red-50"
+                      onClick={() => handleRemove(item.id)}
+                    >
+                      Remove
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       ) : (
         <div className="border border-dashed border-pink-300 rounded-lg p-6 text-center text-gray-500 bg-white">
