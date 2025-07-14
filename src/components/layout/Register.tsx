@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Mail, Lock, Loader2, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { FaGoogle, FaGithub } from "react-icons/fa";
@@ -9,7 +8,6 @@ import { toast } from "sonner";
 import { supabase } from "@/lib/supabaseClient";
 
 const Register = () => {
-  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,15 +23,14 @@ const Register = () => {
         password,
       });
 
-      if (error) {
-        throw new Error(error.message);
-      }
+      if (error) throw new Error(error.message);
 
       toast.success(
         "Registration success! Please check your email to confirm."
       );
       console.log("Signup data:", data);
-    } catch (err: any) {
+    } catch (error: unknown) {
+      const err = error as Error;
       console.error("Signup error!", err.message);
       toast.error("Error signing up! " + err.message);
     } finally {
@@ -46,12 +43,13 @@ const Register = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
       });
-      if (error) {
-        throw new Error("Google login error");
-      }
+
+      if (error) throw new Error("Google login error");
+
       toast.success("Register success!");
-    } catch (error: any) {
-      console.error("Google login error:", error.message);
+    } catch (error: unknown) {
+      const err = error as Error;
+      console.error("Google login error:", err.message);
       toast.error("Google login failed. Please try again.");
     }
   };
@@ -61,15 +59,17 @@ const Register = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "github",
       });
-      if (error) {
-        throw new Error("Github login error.");
-      }
+
+      if (error) throw new Error("GitHub login error");
+
       toast.success("Register success!");
-    } catch (error: any) {
-      console.error("Github login error:", error.message);
-      toast.error("Github login failed. Please try again.");
+    } catch (error: unknown) {
+      const err = error as Error;
+      console.error("GitHub login error:", err.message);
+      toast.error("GitHub login failed. Please try again.");
     }
   };
+
   return (
     <div className="py-16 flex items-center justify-center bg-gray-100 px-4">
       <div className="max-w-md w-full space-y-6 bg-white p-8 rounded shadow">
@@ -80,8 +80,6 @@ const Register = () => {
         </div>
 
         <form className="space-y-4" onSubmit={handleRegister}>
-          {/* ----------------Email Field------------- */}
-
           <div className="flex items-center border rounded px-3 py-2 focus-within:border-pink-500">
             <Mail className="h-4 w-4 text-pink-500 mr-2" />
             <input
@@ -90,10 +88,10 @@ const Register = () => {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
-          {/* ----------------Password Field------------- */}
           <div className="relative flex items-center border rounded px-3 py-2 focus-within:border-pink-500">
             <Lock className="h-4 w-4 text-pink-500 mr-2" />
             <input
@@ -102,21 +100,21 @@ const Register = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
             <button
               type="button"
               className="absolute right-3 text-gray-500 cursor-pointer"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => setShowPassword((prev) => !prev)}
             >
               {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
             </button>
           </div>
 
-          {/* ----------------Button------------- */}
           <button
             disabled={loading || !email || !password}
             type="submit"
-            className="w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded flex items-center justify-center cursor-pointer"
+            className="w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded flex items-center justify-center"
           >
             {loading ? (
               <Loader2 className="animate-spin h-5 w-5" />
@@ -133,19 +131,17 @@ const Register = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3">
-          {/* ---------------GOOGLE BUTTON---------------- */}
           <button
             onClick={handleGoogleRegister}
-            className="w-full border rounded py-2 flex items-center justify-center text-sm cursor-pointer hover:bg-gray-50"
+            className="w-full border rounded py-2 flex items-center justify-center text-sm hover:bg-gray-50"
           >
             <FaGoogle className="w-4 h-4 mr-2" />
             Google
           </button>
 
-          {/* ---------------GITHUB BUTTON---------------- */}
           <button
             onClick={handleGithubRegister}
-            className="w-full border rounded py-2 flex items-center justify-center text-sm cursor-pointer hover:bg-gray-50"
+            className="w-full border rounded py-2 flex items-center justify-center text-sm hover:bg-gray-50"
           >
             <FaGithub className="w-4 h-4 mr-2" />
             GitHub

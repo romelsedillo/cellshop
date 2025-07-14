@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useRouter } from "next/navigation";
-import Profile from "@/components/layout/Profile";
 
 const ProfilePage = () => {
   const [loading, setLoading] = useState(true);

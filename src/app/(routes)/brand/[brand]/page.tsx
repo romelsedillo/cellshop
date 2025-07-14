@@ -6,7 +6,6 @@ import iPhone from "@/images/brand/iPhone.webp";
 import samsung from "@/images/brand/samsung-galaxy.webp";
 import oneplus from "@/images/brand/OnePlus.jpg";
 import google from "@/images/brand/google-pixel.jpg";
-import Image from "next/image";
 
 const brands = [
   { name: "Apple", href: "/brands/apple", image: iPhone },

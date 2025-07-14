@@ -8,9 +8,6 @@ import { Button } from "@/components/ui/button";
 import Calendar from "@/components/layout/Calendar";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/useAuthStore";
-import LoadingSpinner from "@/components/layout/LoadingSpinner";
-
-
 
 const ProfilePage = () => {
   const [loading, setLoading] = useState(true);
@@ -34,7 +31,7 @@ const ProfilePage = () => {
 
   return (
     <>
-    {loading}
+      {loading}
       <h2 className="text-4xl font-semibold mb-6">Account Settings</h2>
       <div className="grid grid-cols-12">
         <form className="flex flex-col items-start gap-4 col-span-7 pl-4">

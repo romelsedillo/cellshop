@@ -8,7 +8,8 @@ import type { Product } from "@/types/product";
 import ProductSkeletonCard from "./ProductSkeletonCard";
 
 const LatestProducts = () => {
-  const { allProducts, loading, error, fetchAllProducts, fetchLatestProducts } = useProductStore();
+  const { allProducts, loading, error, fetchLatestProducts } =
+    useProductStore();
 
   useEffect(() => {
     fetchLatestProducts();

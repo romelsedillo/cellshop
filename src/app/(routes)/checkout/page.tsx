@@ -14,8 +14,7 @@ const CheckoutPage = () => {
   const [loading, setLoading] = useState(true);
   const { fetchUser } = useAuthStore();
   const router = useRouter();
-  const { cart, removeFromCart, increaseQty, decreaseQty, clearCart } =
-    useCartStore();
+  const { cart, removeFromCart, increaseQty, decreaseQty } = useCartStore();
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {

@@ -38,8 +38,6 @@ export async function removeFavorite(productId: string) {
   if (error) throw error;
 }
 
-
-
 export async function getFavoritesForUser(userId: string) {
   const { data, error } = await supabase
     .from("favorites")

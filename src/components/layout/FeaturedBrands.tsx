@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import iPhone from "@/images/brand/iPhone.webp";
 import samsung from "@/images/brand/samsung-galaxy.webp";
 import xiaomi from "@/images/brand/xiaomi.jpeg";

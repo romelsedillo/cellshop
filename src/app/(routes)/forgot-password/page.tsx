@@ -1,13 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Mail, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    setLoading(false);
+  }, []);
   return (
     <div className="py-16 flex items-center justify-center bg-gray-100 px-4">
       <div className="max-w-md w-full space-y-6 bg-white p-8 rounded shadow">

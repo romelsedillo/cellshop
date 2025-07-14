@@ -4,17 +4,27 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useProductStore } from "@/store/useProductStore";
-import { getFavoriteIds, removeFavorite } from "@/lib/queries";
+import { getFavoriteIds } from "@/lib/queries";
 import { useCartStore } from "@/store/useCartStore";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { removeFavorite } from "@/lib/supabaseFavorites";
+import Link from "next/link";
+
+type Product = {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  [key: string]: unknown; // optional: allow for future flexibility
+};
 
 const FavoritesPage = () => {
   const { user } = useAuthStore();
   const { allProducts, fetchAllProducts } = useProductStore();
   const { addToCart } = useCartStore();
 
-  const [favoriteProducts, setFavoriteProducts] = useState<any[]>([]);
+  const [favoriteProducts, setFavoriteProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,12 +41,14 @@ const FavoritesPage = () => {
 
       try {
         const favoriteIds = await getFavoriteIds(user.id);
-        const filtered = allProducts.filter((product) =>
+        const filtered = allProducts.filter((product: Product) =>
           favoriteIds.includes(product.id)
         );
         setFavoriteProducts(filtered);
-      } catch (error) {
-        console.error("Error fetching favorites:", error);
+      } catch (error: unknown) {
+        const err = error as Error;
+        console.error("Error fetching favorites:", err.message);
+        toast.error("Failed to load favorites.");
       } finally {
         setLoading(false);
       }
@@ -45,7 +57,7 @@ const FavoritesPage = () => {
     loadFavorites();
   }, [user, allProducts]);
 
-  const handleAddToCart = (product: any) => {
+  const handleAddToCart = (product: Product) => {
     addToCart(product);
     toast.success("Added to cart!");
   };
@@ -57,7 +69,9 @@ const FavoritesPage = () => {
         prev.filter((item) => item.id !== productId)
       );
       toast.success("Removed from favorites.");
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error as Error;
+      console.error("Remove error:", err.message);
       toast.error("Failed to remove from favorites.");
     }
   };
@@ -89,16 +103,26 @@ const FavoritesPage = () => {
               {favoriteProducts.map((item) => (
                 <tr key={item.id} className="border-t hover:bg-gray-50">
                   <td className="px-4 py-3">
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      width={80}
-                      height={80}
-                      className="rounded"
-                    />
+                    <Link
+                      href={`/product-details/${item.id}`}
+                      className="text-pink-600 hover:underline cursor-pointer"
+                    >
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        width={80}
+                        height={80}
+                        className="rounded"
+                      />
+                    </Link>
                   </td>
                   <td className="px-4 py-3 font-medium text-gray-800">
-                    {item.name}
+                    <Link
+                      href={`/product-details/${item.id}`}
+                      className="text-pink-600 hover:underline cursor-pointer"
+                    >
+                      {item.name}
+                    </Link>
                   </td>
                   <td className="px-4 py-3 text-pink-600 font-semibold">
                     ₱{item.price.toLocaleString()}
