@@ -10,6 +10,14 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useAuthStore } from "@/store/useAuthStore";
 import LoadingSpinner from "@/components/layout/LoadingSpinner";
 
+type CartItem = {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  quantity: number;
+};
+
 const CheckoutPage = () => {
   const [loading, setLoading] = useState(true);
   const { fetchUser } = useAuthStore();
@@ -40,7 +48,7 @@ const CheckoutPage = () => {
     setTotalPrice(total);
   }, [cart]);
 
-  const handleRemoveFromCart = (item) => {
+  const handleRemoveFromCart = (item: CartItem) => {
     removeFromCart(item.id);
     toast.warning("Checkout successful!");
   };
@@ -76,7 +84,7 @@ const CheckoutPage = () => {
           ) : (
             <>
               <div className="space-y-6 mb-6">
-                {cart.map((item) => (
+                {cart.map((item: CartItem) => (
                   <div
                     key={item.id}
                     className="flex items-center border-b pb-4"

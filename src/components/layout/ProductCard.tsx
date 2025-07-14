@@ -3,7 +3,6 @@ import { Badge } from "../ui/badge";
 import Image from "next/image";
 import Link from "next/link";
 import { IoIosStar } from "react-icons/io";
-import type { Product } from "@/types/product";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { ShoppingCart } from "lucide-react";
@@ -12,6 +11,17 @@ import { useCartStore } from "@/store/useCartStore";
 import { FavoriteButton } from "./FavoriteButton";
 import { useAuthStore } from "@/store/useAuthStore";
 
+export type Product = {
+  id: string;
+  name: string;
+  image: string;
+  description: string;
+  brand: string;
+  price: number;
+  featured?: boolean;
+  latest?: boolean;
+};
+
 type Props = {
   product: Product;
 };
@@ -19,7 +29,7 @@ type Props = {
 const ProductCard: React.FC<Props> = ({ product }) => {
   const { user } = useAuthStore();
 
-  const handleAddToCart = (product: any) => {
+  const handleAddToCart = (product: Product) => {
     useCartStore.getState().addToCart({
       id: product.id,
       name: product.name,

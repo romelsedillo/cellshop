@@ -26,11 +26,12 @@ export const useProductStore = create<ProductStore>((set) => ({
       const res = await fetch("/api/products");
       if (!res.ok) throw new Error("Failed to fetch products");
 
-      const data = await res.json();
+      const data: Product[] = await res.json();
 
       set({ allProducts: data, loading: false });
-    } catch (error: any) {
-      set({ error: error.message || "Error", loading: false });
+    } catch (error) {
+      const err = error as Error;
+      set({ error: err.message, loading: false });
     }
   },
 
@@ -39,30 +40,30 @@ export const useProductStore = create<ProductStore>((set) => ({
       set({ loading: true, error: null });
 
       const res = await fetch("/api/products");
-      if (!res.ok) throw new Error("Failed to fetch featured products.");
+      if (!res.ok) throw new Error("Failed to fetch featured products");
+
       const data: Product[] = await res.json();
       const featured = data.filter((product) => product.featured);
       set({ featuredProducts: featured, loading: false });
-    } catch (error: any) {
-      set({
-        error: error.message || "Failed to fetch featured products.",
-        loading: false,
-      });
+    } catch (error) {
+      const err = error as Error;
+      set({ error: err.message, loading: false });
     }
   },
+
   fetchLatestProducts: async () => {
-    try {set({ loading: true, error: null });
+    try {
+      set({ loading: true, error: null });
 
       const res = await fetch("/api/products");
-      if (!res.ok) throw new Error("Failed to fetch featured products.");
+      if (!res.ok) throw new Error("Failed to fetch latest products");
+
       const data: Product[] = await res.json();
       const latest = data.filter((product) => product.latest);
       set({ latestProducts: latest, loading: false });
-    } catch (error: any) {
-      set({
-        error: error.message || "Failed to fetch new products.",
-        loading: false,
-      });
+    } catch (error) {
+      const err = error as Error;
+      set({ error: err.message, loading: false });
     }
   },
 }));

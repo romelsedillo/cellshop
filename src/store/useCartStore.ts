@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 type CartItem = {
-  id: number;
+  id: string | number;
   name: string;
   price: number;
   image: string;
@@ -65,5 +65,3 @@ export const useCartStore = create<CartStore>((set, get) => ({
 
   totalPrice: 0,
 }));
-
-

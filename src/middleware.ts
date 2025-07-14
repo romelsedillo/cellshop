@@ -1,7 +1,5 @@
 import { type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
-import { supabase } from "./lib/supabaseClient";
-import { NextResponse } from "next/server";
 import { checkUser } from "./lib/checkUser";
 
 export async function middleware(request: NextRequest) {
