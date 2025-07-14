@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 type CartItem = {
-  id: string | number;
+  id: string;
   name: string;
   price: number;
   image: string;
@@ -11,10 +11,10 @@ type CartItem = {
 type CartStore = {
   cart: CartItem[];
   addToCart: (item: Omit<CartItem, "quantity">) => void;
-  removeFromCart: (id: number) => void;
+  removeFromCart: (id: string) => void;
   clearCart: () => void;
-  increaseQty: (id: number) => void;
-  decreaseQty: (id: number) => void;
+  increaseQty: (id: string) => void;
+  decreaseQty: (id: string) => void;
 
   totalPrice: number;
 };
