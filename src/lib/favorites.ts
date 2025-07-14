@@ -37,8 +37,14 @@ export async function getFavorites(userId: string) {
           price: price?.unit_amount ? price.unit_amount / 100 : null,
           currency: price?.currency ?? "usd",
         };
-      } catch (err) {
-        console.warn(`Product not found in Stripe: ${id}`);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          console.warn(
+            `Product not found in Stripe: ${id}. Error: ${err.message}`
+          );
+        } else {
+          console.warn(`Product not found in Stripe: ${id}. Unknown error.`);
+        }
         return null;
       }
     })
