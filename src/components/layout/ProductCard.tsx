@@ -10,17 +10,8 @@ import { Heart } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
 import { FavoriteButton } from "./FavoriteButton";
 import { useAuthStore } from "@/store/useAuthStore";
+import type { Product } from "@/types/product";
 
-export type Product = {
-  id: string;
-  name: string;
-  image: string;
-  description: string;
-  brand: string;
-  price: number;
-  featured?: boolean;
-  latest?: boolean;
-};
 
 type Props = {
   product: Product;
