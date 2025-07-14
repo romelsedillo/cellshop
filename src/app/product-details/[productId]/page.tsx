@@ -8,7 +8,7 @@ import { IoIosStar } from "react-icons/io";
 import { useCartStore } from "@/store/useCartStore";
 import { toast } from "sonner";
 
-const ProductDetailsPage: React.FC<Props> = () => {
+const ProductDetailsPage = () => {
   const [quantity, setQuantity] = useState(1);
 
   const { addToCart } = useCartStore();
@@ -69,7 +69,7 @@ const ProductDetailsPage: React.FC<Props> = () => {
                 Featured
               </span>
             )}
-            {product.isNew && (
+            {product.latest && (
               <span className="text-blue-500 font-medium mb-2">
                 New Arrival
               </span>
