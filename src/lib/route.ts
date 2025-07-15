@@ -5,42 +5,32 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2025-06-30.basil",
 });
 
-// console.log("Stripe Secret Key Loaded:", !!process.env.STRIPE_SECRET_KEY);
-
-type CartItem = {
-  name: string;
-  image: string;
-  price: number;
-  quantity: number;
-};
-export async function POST(req: Request) {
-  const { cartItems }: { cartItems: CartItem[] } = await req.json();
-
+export async function GET() {
   try {
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout`,
-      line_items: cartItems.map((item: CartItem) => ({
-        price_data: {
-          currency: "usd",
-          product_data: {
-            name: item.name,
-            images: item.image
-              ? [item.image]
-              : ["https://via.placeholder.com/150"],
-          },
-          unit_amount: Math.round(Number(item.price) * 100),
-        },
-        quantity: item.quantity,
-      })),
-    });
-    return NextResponse.json({ id: session.id });
-  } catch (err: unknown) {
-    const errorMessage =
-      err instanceof Error ? err.message : "Unknown error occurred.";
-    console.error("Stripe session error:", errorMessage);
-    return NextResponse.json({ error: errorMessage }, { status: 500 });
+    const products = await stripe.products.list({ limit: 100 });
+    const prices = await stripe.prices.list({ limit: 100 });
+
+    const featured = products.data
+      .filter((p) => p.metadata.featured === "true")
+      .map((product) => {
+        const price = prices.data.find((p) => p.product === product.id);
+        return {
+          id: product.id,
+          name: product.name,
+          image: product.images[0] || "",
+          price: price?.unit_amount ? price.unit_amount / 100 : 0,
+          description: product.description,
+          featured: product.metadata.featured === "true",
+          brand: product.metadata.brand,
+          isNew: product.metadata.isNew === "true",
+        };
+      });
+    return NextResponse.json(featured);
+  } catch (error) {
+    console.error("Featured products error.", error);
+    return NextResponse.json(
+      { error: "Failed to fetch featured products." },
+      { status: 500 }
+    );
   }
 }
