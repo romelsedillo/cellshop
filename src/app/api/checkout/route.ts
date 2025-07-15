@@ -1,10 +1,11 @@
-// /app/api/checkout/route.ts
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2025-03-31.basil",
 });
+
+console.log("Stripe Secret Key Loaded:", !!process.env.STRIPE_SECRET_KEY);
 
 type CartItem = {
   name: string;
@@ -23,14 +24,14 @@ export async function POST(req: Request) {
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout`,
       line_items: cartItems.map((item: CartItem) => ({
         price_data: {
-          currency: "php",
+          currency: "usd",
           product_data: {
             name: item.name,
             images: item.image
               ? [item.image]
               : ["https://via.placeholder.com/150"],
           },
-          unit_amount: Math.round(Number(item.price) * 100), // PHP currency is in cents
+          unit_amount: Math.round(Number(item.price) * 100),
         },
         quantity: item.quantity,
       })),
