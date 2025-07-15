@@ -1,6 +1,5 @@
 import confetti from "canvas-confetti";
 
-
 export function launchConfetti() {
   confetti({
     particleCount: 150,
