@@ -5,7 +5,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2025-06-30.basil",
 });
 
-console.log("Stripe Secret Key Loaded:", !!process.env.STRIPE_SECRET_KEY);
+// console.log("Stripe Secret Key Loaded:", !!process.env.STRIPE_SECRET_KEY);
 
 type CartItem = {
   name: string;
