@@ -118,7 +118,7 @@ const CheckoutPage = () => {
                       <Button
                         size="sm"
                         onClick={() => decreaseQty(item.id)}
-                        className="bg-pink-500 text-white hover:bg-pink-600"
+                        className="bg-pink-500 text-white hover:bg-pink-600 cursor-pointer"
                       >
                         −
                       </Button>
@@ -134,7 +134,7 @@ const CheckoutPage = () => {
 
                     <Button
                       onClick={() => handleRemoveFromCart(item)}
-                      className="bg-red-500 text-white hover:bg-red-600"
+                      className="bg-red-500 text-white hover:bg-red-600 cursor-pointer"
                     >
                       Remove
                     </Button>
@@ -160,7 +160,7 @@ const CheckoutPage = () => {
 
           <button
             onClick={handleCheckout}
-            className="w-full bg-pink-500 text-white py-3 rounded hover:bg-pink-600 transition"
+            className="w-full bg-pink-500 text-white py-3 rounded hover:bg-pink-600 transition cursor-pointer"
           >
             Confirm Checkout
           </button>

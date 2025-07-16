@@ -13,43 +13,44 @@ type CartItem = {
 };
 
 export async function POST(req: Request) {
-  console.log("🔔 Checkout route hit");
-
-  if (!process.env.STRIPE_SECRET_KEY) {
-    console.error("❌ Stripe secret key is missing");
-    throw new Error("Stripe secret key not loaded");
-  }
-
-  const body = await req.json();
-  console.log("🧾 Received cartItems:", body.cartItems);
-
   try {
+    const { cartItems }: { cartItems: CartItem[] } = await req.json();
+
+    console.log("✅ cartItems:", cartItems);
+    console.log("✅ STRIPE_SECRET_KEY:", process.env.STRIPE_SECRET_KEY);
+    console.log("✅ NEXT_PUBLIC_BASE_URL:", process.env.NEXT_PUBLIC_BASE_URL);
+
+    if (!cartItems || cartItems.length === 0) {
+      return NextResponse.json(
+        { error: "No cart items provided" },
+        { status: 400 }
+      );
+    }
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout`,
-      line_items: body.cartItems.map((item: CartItem) => ({
+      success_url: `https://pickcellshop.vercel.app/success`,
+      cancel_url: `https://pickcellshop.vercel.app/checkout`,
+      line_items: cartItems.map((item) => ({
         price_data: {
           currency: "php",
           product_data: {
-            name: item.name,
-            images: item.image
-              ? [item.image]
-              : ["https://via.placeholder.com/150"],
+            name: item.name || "Unnamed Product",
+            images: item.image?.startsWith("http") ? [item.image] : [],
           },
-          unit_amount: Math.round(Number(item.price) * 100),
+          unit_amount: item.price ? Math.round(item.price * 100) : 1000,
         },
-        quantity: item.quantity,
+        quantity: item.quantity || 1,
       })),
     });
 
-    console.log("✅ Stripe session created:", session.id);
     return NextResponse.json({ id: session.id });
-  } catch (err: unknown) {
-    const errorMessage =
-      err instanceof Error ? err.message : "Unknown error occurred.";
-    console.error("🔥 Stripe session error:", errorMessage);
-    return NextResponse.json({ error: errorMessage }, { status: 500 });
+  } catch (err) {
+    console.error("🔥 Stripe session error:", err);
+    return NextResponse.json(
+      { error: "Failed to create checkout session" },
+      { status: 500 }
+    );
   }
 }
