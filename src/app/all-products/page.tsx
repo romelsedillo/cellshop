@@ -1,4 +1,6 @@
-"use client"; // if you're in /app
+"use client";
+
+
 import React, { useState } from "react";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";

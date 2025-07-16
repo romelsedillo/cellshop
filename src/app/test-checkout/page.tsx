@@ -1,20 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { loadStripe } from "@stripe/stripe-js";
+
 export default function TestCheckout() {
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const init = async () => {
-      const stripe = await loadStripe(
-        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-      );
-      console.log("Stripe instance:", stripe);
-    };
-
-    init();
-  }, []);
+  useEffect(() => {}, []);
 
   const handleTestCheckout = async () => {
     setLoading(true);

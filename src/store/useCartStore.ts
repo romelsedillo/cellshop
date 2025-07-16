@@ -15,7 +15,6 @@ type CartStore = {
   clearCart: () => void;
   increaseQty: (id: string) => void;
   decreaseQty: (id: string) => void;
-
   totalPrice: number;
 };
 

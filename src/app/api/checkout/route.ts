@@ -7,8 +7,12 @@ type CartItem = {
   price: number;
   quantity: number;
 };
+
 export async function POST(req: Request) {
   const { cartItems }: { cartItems: CartItem[] } = await req.json();
+  if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error("Stripe secret key not loaded");
+  }
 
   try {
     const session = await stripe.checkout.sessions.create({

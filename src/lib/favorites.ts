@@ -19,7 +19,7 @@ export async function getFavorites(userId: string) {
     return [];
   }
 
-  // 2. For each product ID, fetch from Stripe
+
   const products = await Promise.all(
     productIds.map(async (id) => {
       try {

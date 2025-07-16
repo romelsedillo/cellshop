@@ -1,9 +1,5 @@
+import { stripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
-import Stripe from "stripe";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-06-30.basil",
-});
 
 export async function GET() {
   try {
@@ -23,6 +19,7 @@ export async function GET() {
         latest: product.metadata.latest === "true",
       };
     });
+    console.log(stripe);
     return NextResponse.json(enrichedProducts);
   } catch (error) {
     console.error(error);

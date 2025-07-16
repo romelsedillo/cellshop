@@ -8,7 +8,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { stripePromise } from "@/lib/stripe";
+import { loadStripe } from "@stripe/stripe-js";
 
 type CartItem = {
   id: string;
@@ -25,6 +25,10 @@ const CheckoutPage = () => {
 
   const { fetchUser } = useAuthStore();
   const { cart, removeFromCart, increaseQty, decreaseQty } = useCartStore();
+
+  const stripePromise = loadStripe(
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+  );
 
   useEffect(() => {
     const init = async () => {
