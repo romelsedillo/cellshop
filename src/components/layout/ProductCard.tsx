@@ -12,7 +12,6 @@ import { FavoriteButton } from "./FavoriteButton";
 import { useAuthStore } from "@/store/useAuthStore";
 import type { Product } from "@/types/product";
 
-
 type Props = {
   product: Product;
 };
@@ -91,7 +90,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           {/* Add to Cart Button */}
           <Button
             size="sm"
-            className="w-full text-xs flex items-center justify-center rounded bg-pink-500 text-white hover:bg-pink-600 cursor-pointer"
+            className="w-full text-xs flex items-center justify-center rounded bg-pink-500 text-white hover:bg-pink-600 "
             onClick={(e) => {
               e.preventDefault();
               toast.success(product.name);
