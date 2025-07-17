@@ -19,7 +19,7 @@ const ProfilePage = () => {
       await fetchUser();
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      if (useAuthStore.getState().user) {
+      if (!useAuthStore.getState().user) {
         router.push("/");
       } else {
         setLoading(false);
