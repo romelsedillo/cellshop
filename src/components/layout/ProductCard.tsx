@@ -6,7 +6,7 @@ import { IoIosStar } from "react-icons/io";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { ShoppingCart } from "lucide-react";
-import { FaHeart } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
 import { useCartStore } from "@/store/useCartStore";
 import { FavoriteButton } from "./FavoriteButton";
 import { useAuthStore } from "@/store/useAuthStore";
@@ -53,7 +53,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
               variant="outline"
               className="h-8 w-8 rounded-full cursor-pointer border border-pink-200"
             >
-              <FaHeart className="h-4 w-4 text-pink-500" />
+              <FaRegHeart className="h-4 w-4 text-pink-500" />
             </Button>
           )}
         </div>
