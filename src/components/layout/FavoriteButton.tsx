@@ -3,7 +3,10 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Heart, HeartOff } from "lucide-react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+
+<FaRegHeart />;
+
 import {
   addFavorite,
   removeFavorite,
@@ -55,9 +58,9 @@ export function FavoriteButton({ productId }: { productId: string }) {
       disabled={loading}
     >
       {favorited ? (
-        <HeartOff className="h-4 w-4 text-pink-500" />
+        <FaHeart className="h-4 w-4 text-pink-500" />
       ) : (
-        <Heart className="h-4 w-4 text-pink-500" />
+        <FaRegHeart className="h-4 w-4 text-pink-500" />
       )}
     </Button>
   );

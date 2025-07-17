@@ -30,8 +30,10 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      success_url: `https://pickcellshop.vercel.app/success`,
-      cancel_url: `https://pickcellshop.vercel.app/checkout`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout`,
+      // success_url: `https://pickcellshop.vercel.app/success`,
+      // cancel_url: `https://pickcellshop.vercel.app/checkout`,
       line_items: cartItems.map((item) => ({
         price_data: {
           currency: "php",

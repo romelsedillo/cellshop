@@ -8,6 +8,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabaseClient";
 import { useAuthStore } from "@/store/useAuthStore";
+import { Button } from "../ui/button";
 
 const Login = () => {
   const { fetchUser } = useAuthStore();
@@ -69,7 +70,7 @@ const Login = () => {
       toast.success("Redirecting to Google login...");
     } catch (error: unknown) {
       const err = error as Error;
-      console.error("Google login error:", err.message);
+      console.log("Google login error:", err.message);
       toast.error("Google login failed. Please try again.");
     }
   };
@@ -91,21 +92,21 @@ const Login = () => {
   };
 
   return (
-    <div className="py-12 flex items-center justify-center bg-gray-100 px-4">
+    <div className="py-12 flex items-center justify-center bg-slate-100 px-4">
       <div className="max-w-md w-full space-y-6 bg-white p-8 rounded shadow">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-800">
+          <h2 className="text-2xl font-bold text-slate-700">
             Login to Your Account
           </h2>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
           {/* Email Field */}
-          <div className="flex items-center border rounded px-3 py-2 focus-within:border-pink-500">
+          <div className="flex items-center border-slate-200 border rounded px-3 py-2 focus-within:border-pink-500">
             <Mail className="h-4 w-4 text-pink-500 mr-2" />
             <input
               type="email"
-              className="w-full outline-none"
+              className="w-full outline-none text-slate-800 placeholder:text-slate-400"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -114,11 +115,11 @@ const Login = () => {
           </div>
 
           {/* Password Field */}
-          <div className="relative flex items-center border rounded px-3 py-2 focus-within:border-pink-500">
+          <div className="relative flex items-center border-slate-200 border rounded px-3 py-2 focus-within:border-pink-500">
             <Lock className="h-4 w-4 text-pink-500 mr-2" />
             <input
               type={showPassword ? "text" : "password"}
-              className="w-full outline-none pr-8"
+              className="w-full outline-none text-slate-800 placeholder:text-slate-400 pr-4"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -127,23 +128,26 @@ const Login = () => {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 text-gray-500"
+              className="absolute right-3 text-slate-500"
             >
               {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
             </button>
           </div>
 
           {/* Login Button */}
-          <button
-            disabled={loading || !email || !password}
+          <Button
             type="submit"
-            className="w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded flex items-center justify-center cursor-pointer"
+            className={`w-full py-2 px-4 rounded font-medium flex items-center justify-center transition-all duration-200 ${
+              !email || !password
+                ? "bg-pink-300 text-white cursor-not-allowed hover:bg-pink-300"
+                : "bg-pink-500 hover:bg-pink-600 text-white active:scale-[0.98] shadow-md"
+            }`}
           >
             {loading ? <Loader2 className="animate-spin h-5 w-5" /> : "Login"}
-          </button>
+          </Button>
         </form>
 
-        <div className="flex items-center justify-between text-sm text-gray-600">
+        <div className="flex items-center justify-between text-sm text-slate-600">
           <div className="flex items-center space-x-2">
             <input
               type="checkbox"
@@ -164,27 +168,29 @@ const Login = () => {
           </Link>
         </div>
 
-        <div className="text-center text-sm text-gray-500">
-          Or continue with
+        <div className="flex items-center gap-2 my-4">
+          <div className="flex-grow border-t border-slate-300" />
+          <span className="text-sm text-slate-500">or continue with</span>
+          <div className="flex-grow border-t border-slate-300" />
         </div>
 
         <div className="flex gap-4">
           <button
             onClick={handleGoogleLogin}
-            className="w-full border rounded py-2 flex items-center justify-center text-sm hover:bg-gray-50"
+            className="w-full bg-white text-slate-800 border rounded py-2 flex items-center justify-center text-sm hover:bg-slate-50 cursor-pointer transition-transform duration-150 ease-in-out active:scale-95"
           >
             <FaGoogle className="h-4 w-4 mr-2" /> Google
           </button>
 
           <button
             onClick={handleGithubLogin}
-            className="w-full border rounded py-2 flex items-center justify-center text-sm hover:bg-gray-50"
+            className="w-full bg-white text-slate-800 border rounded py-2 flex items-center justify-center text-sm hover:bg-slate-50 cursor-pointer transition-transform duration-150 ease-in-out active:scale-95"
           >
             <FaGithub className="h-4 w-4 mr-2" /> GitHub
           </button>
         </div>
 
-        <div className="text-sm text-center text-gray-600">
+        <div className="text-sm text-center text-slate-600">
           Don&apos;t have an account?{" "}
           <Link href="/register" className="text-pink-500 hover:underline">
             Register
