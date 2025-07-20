@@ -16,9 +16,9 @@ export async function POST(req: Request) {
   try {
     const { cartItems }: { cartItems: CartItem[] } = await req.json();
 
-    console.log("✅ cartItems:", cartItems);
-    console.log("✅ STRIPE_SECRET_KEY:", process.env.STRIPE_SECRET_KEY);
-    console.log("✅ NEXT_PUBLIC_BASE_URL:", process.env.NEXT_PUBLIC_BASE_URL);
+    // console.log("✅ cartItems:", cartItems);
+    // console.log("✅ STRIPE_SECRET_KEY:", process.env.STRIPE_SECRET_KEY);
+    // console.log("✅ NEXT_PUBLIC_BASE_URL:", process.env.NEXT_PUBLIC_BASE_URL);
 
     if (!cartItems || cartItems.length === 0) {
       return NextResponse.json(
@@ -45,6 +45,9 @@ export async function POST(req: Request) {
         },
         quantity: item.quantity || 1,
       })),
+      metadata: {
+        cart: JSON.stringify(cartItems),
+      },
     });
 
     return NextResponse.json({ id: session.id });
