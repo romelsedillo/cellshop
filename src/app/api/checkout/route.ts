@@ -14,7 +14,11 @@ type CartItem = {
 
 export async function POST(req: Request) {
   try {
-    const { cartItems }: { cartItems: CartItem[] } = await req.json();
+    const {
+      cartItems,
+      user,
+    }: { cartItems: CartItem[]; user: { id: string; email: string } } =
+      await req.json();
 
     // console.log("✅ cartItems:", cartItems);
     // console.log("✅ STRIPE_SECRET_KEY:", process.env.STRIPE_SECRET_KEY);
@@ -46,6 +50,8 @@ export async function POST(req: Request) {
         quantity: item.quantity || 1,
       })),
       metadata: {
+        user_id: user?.id,
+        email: user?.email,
         cart: JSON.stringify(cartItems),
       },
     });

@@ -23,7 +23,7 @@ const CheckoutPage = () => {
   const [loading, setLoading] = useState(true);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const { fetchUser } = useAuthStore();
+  const { fetchUser, user } = useAuthStore();
   const { cart, removeFromCart, increaseQty, decreaseQty } = useCartStore();
 
   const stripePromise = loadStripe(
@@ -61,12 +61,19 @@ const CheckoutPage = () => {
 
   const handleCheckout = async () => {
     const stripe = await stripePromise;
+    const cart = useCartStore.getState().cart;
 
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cartItems: cart }),
+        body: JSON.stringify({
+          cartItems: cart,
+          user: {
+            id: user?.id,
+            email: user?.email,
+          },
+        }),
       });
 
       const data = await res.json();
