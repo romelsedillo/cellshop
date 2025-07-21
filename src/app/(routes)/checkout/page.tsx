@@ -28,7 +28,7 @@ const CheckoutPage = () => {
   const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
   );
-
+  console.log(user?.email);
   useEffect(() => {
     const init = async () => {
       await fetchUser();
