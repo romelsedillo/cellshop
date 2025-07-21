@@ -28,14 +28,13 @@ const CheckoutPage = () => {
   const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
   );
-  console.log(user?.email);
+
   useEffect(() => {
     const init = async () => {
       await fetchUser();
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       const user = useAuthStore.getState().user;
-
       if (!user) {
         router.push("/login");
       } else {
