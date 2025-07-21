@@ -25,7 +25,6 @@ const CheckoutPage = () => {
 
   const { fetchUser, user } = useAuthStore();
   const { cart, removeFromCart, increaseQty, decreaseQty } = useCartStore();
-
   const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
   );
@@ -36,6 +35,7 @@ const CheckoutPage = () => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       const user = useAuthStore.getState().user;
+
       if (!user) {
         router.push("/login");
       } else {

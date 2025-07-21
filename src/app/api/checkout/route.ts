@@ -50,8 +50,8 @@ export async function POST(req: Request) {
         quantity: item.quantity || 1,
       })),
       metadata: {
-        user_id: user?.id,
-        email: user?.email,
+        user_id: user?.id || "guest",
+        email: user?.email || "no-email",
         cart: JSON.stringify(cartItems),
       },
     });
