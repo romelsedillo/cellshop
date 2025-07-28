@@ -38,7 +38,8 @@ export async function POST(req: Request) {
           user_id: session.metadata?.user_id ?? null,
           products: cart,
           stripe_session_id: session.id,
-          email: session.customer_email || "null",
+          // email: session.customer_email || "null",
+          email: session.metadata?.email || "null",
         },
       ]);
 
