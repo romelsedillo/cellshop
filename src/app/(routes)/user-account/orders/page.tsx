@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
-import { createClient } from "@supabase/supabase-js";
+import { supabase } from "@/lib/supabaseClient";
 
 type Product = {
   name: string;
@@ -19,7 +19,6 @@ type Order = {
 
 const OrdersPage = () => {
   const { user } = useAuthStore();
-  const supabase = createClient();
 
   const [orders, setOrders] = useState<Order[]>([]);
 
@@ -47,7 +46,7 @@ const OrdersPage = () => {
     };
 
     fetchOrders();
-  }, [user?.email, supabase]);
+  }, [user?.email]);
 
   if (!user) return <p>Please log in to see your orders.</p>;
 
