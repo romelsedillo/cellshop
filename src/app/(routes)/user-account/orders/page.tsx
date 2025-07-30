@@ -1,93 +1,55 @@
-"use client";
-
 import { useEffect, useState } from "react";
+import { getOrders } from "@/lib/getOrders";
 import { useAuthStore } from "@/store/useAuthStore";
-import { supabase } from "@/lib/supabaseClient";
+import { Order, CartItem } from "@/types/types";
 
-type Product = {
-  name: string;
-  price: number;
-  quantity: number;
-};
-
-type Order = {
-  id: string;
-  email: string;
-  cart: Product[];
-  created_at: string;
-};
-
-const OrdersPage = () => {
+export default function OrdersPage() {
   const { user } = useAuthStore();
-
   const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
-    if (!user?.email) return;
-
-    const fetchOrders = async () => {
-      const { data, error } = await supabase
-        .from("orders")
-        .select("*")
-        .eq("email", user.email)
-        .order("created_at", { ascending: false });
-
-      if (!error && data) {
-        setOrders(
-          data.map((order: Order) => ({
-            ...order,
-            cart:
-              typeof order.cart === "string"
-                ? JSON.parse(order.cart)
-                : order.cart,
-          }))
-        );
-      }
-    };
-
-    fetchOrders();
-  }, [user?.email]);
-
-  if (!user) return <p>Please log in to see your orders.</p>;
+    if (user?.email) {
+      getOrders(user.email).then(setOrders);
+    }
+  }, [user]);
 
   return (
     <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">My Orders</h2>
+      <h1 className="text-xl font-semibold mb-4">My Orders</h1>
 
       {orders.length === 0 ? (
         <p>No orders found.</p>
       ) : (
-        <div className="space-y-6">
-          {orders.map((order) => (
-            <div key={order.id} className="border p-4 rounded-md shadow">
-              <p className="text-sm text-gray-500 mb-2">Order ID: {order.id}</p>
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b">
-                    <th className="py-2">Product</th>
-                    <th className="py-2">Price</th>
-                    <th className="py-2">Qty</th>
-                    <th className="py-2">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {order.cart.map((item, index) => (
-                    <tr key={index} className="border-b">
-                      <td className="py-2">{item.name}</td>
-                      <td className="py-2">₱{item.price.toFixed(2)}</td>
-                      <td className="py-2">{item.quantity}</td>
-                      <td className="py-2">
-                        ₱{(item.price * item.quantity).toFixed(2)}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ))}
-        </div>
+        <table className="min-w-full bg-white border border-gray-200">
+          <thead>
+            <tr className="bg-gray-100 text-left">
+              <th className="px-4 py-2 border">Order ID</th>
+              <th className="px-4 py-2 border">Email</th>
+              <th className="px-4 py-2 border">Cart Items</th>
+              <th className="px-4 py-2 border">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order) => {
+              const cartItems = JSON.parse(order.cart) as CartItem[];
+              return (
+                <tr key={order.id}>
+                  <td className="px-4 py-2 border">{order.id}</td>
+                  <td className="px-4 py-2 border">{order.email}</td>
+                  <td className="px-4 py-2 border whitespace-pre-wrap">
+                    {cartItems
+                      .map((item) => `${item.name} (x${item.quantity})`)
+                      .join(", ")}
+                  </td>
+                  <td className="px-4 py-2 border">
+                    {new Date(order.created_at).toLocaleString()}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       )}
     </div>
   );
-};
-export default OrdersPage;
+}
