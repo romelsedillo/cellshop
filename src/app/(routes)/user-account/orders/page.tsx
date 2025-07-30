@@ -31,13 +31,13 @@ export default function OrdersPage() {
           </thead>
           <tbody>
             {orders.map((order) => {
-              const cartItems = JSON.parse(order.cart) as CartItem[];
+              const cartProducts = JSON.parse(order.products) as CartItem[];
               return (
                 <tr key={order.id}>
                   <td className="px-4 py-2 border">{order.id}</td>
                   <td className="px-4 py-2 border">{order.email}</td>
                   <td className="px-4 py-2 border whitespace-pre-wrap">
-                    {cartItems
+                    {cartProducts
                       .map((item) => `${item.name} (x${item.quantity})`)
                       .join(", ")}
                   </td>

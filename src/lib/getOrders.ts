@@ -3,7 +3,7 @@ import { supabase } from "@/lib/supabaseClient";
 export type Order = {
   id: string;
   email: string;
-  cart: string;
+  products: string;
   created_at: string;
 };
 
