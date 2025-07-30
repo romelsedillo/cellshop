@@ -1,11 +1,6 @@
 // lib/queries.ts
 import { supabase } from "@/lib/supabaseClient";
-export type Order = {
-  id: string;
-  email: string;
-  products: string;
-  created_at: string;
-};
+import { Order } from "@/types/types";
 
 export async function getOrders(email: string): Promise<Order[]> {
   const { data, error } = await supabase
