@@ -18,7 +18,7 @@ export async function POST(req: Request) {
   const sig = headerList.get("stripe-signature")!;
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
-  let event;
+  let event: Stripe.Event;
 
   try {
     event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
@@ -30,16 +30,17 @@ export async function POST(req: Request) {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
 
-    const cart = session.metadata?.cart;
+    const cart = session.metadata?.cart
+      ? JSON.parse(session.metadata.cart)
+      : [];
 
     try {
       const { error } = await supabase.from("orders").insert([
         {
           user_id: session.metadata?.user_id ?? null,
-          products: cart,
+          products: cart, // Make sure your "products" column is type json/jsonb
           stripe_session_id: session.id,
-          // email: session.customer_email || "null",
-          email: session.metadata?.email || "null",
+          email: session.metadata?.email ?? null,
         },
       ]);
 
