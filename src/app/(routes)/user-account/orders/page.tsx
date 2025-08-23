@@ -12,7 +12,7 @@ export type Order = {
 };
 
 export default function OrdersPage() {
-  const { user } = useAuthStore(); // Ensure `user` includes `id`
+  const { user } = useAuthStore();
   const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function OrdersPage() {
       getOrders(user.id).then(setOrders);
     }
   }, [user]);
-  console.log(orders);
+
   return (
     <div className="p-4">
       <h1 className="text-xl font-semibold mb-4">My Orders</h1>
@@ -39,15 +39,26 @@ export default function OrdersPage() {
           </thead>
           <tbody>
             {orders.map((order) => {
-              const cartProducts = JSON.parse(order.products) as CartItem[];
+              let cartProducts: CartItem[] = [];
+              try {
+                cartProducts = JSON.parse(order.products);
+              } catch (e) {
+                console.error("Invalid products JSON:", order.products);
+                console.error("error:", e);
+              }
+
               return (
                 <tr key={order.id}>
                   <td className="px-4 py-2 border">{order.id}</td>
                   <td className="px-4 py-2 border">{order.email}</td>
-                  <td className="px-4 py-2 border whitespace-pre-wrap">
-                    {cartProducts
-                      .map((item) => `${item.name} (x${item.quantity})`)
-                      .join(", ")}
+                  <td className="px-4 py-2 border">
+                    <ul className="list-disc list-inside space-y-1">
+                      {cartProducts.map((item, index) => (
+                        <li key={index}>
+                          {item.name} (x{item.quantity})
+                        </li>
+                      ))}
+                    </ul>
                   </td>
                   <td className="px-4 py-2 border">
                     {new Date(order.created_at).toLocaleString()}
