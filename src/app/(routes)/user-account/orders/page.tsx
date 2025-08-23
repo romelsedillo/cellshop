@@ -5,12 +5,12 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { Order, CartItem } from "@/types/types";
 
 export default function OrdersPage() {
-  const { user } = useAuthStore();
+  const { user } = useAuthStore(); // Ensure `user` includes `id`
   const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
-    if (user?.email) {
-      getOrders(user.email).then(setOrders);
+    if (user?.id) {
+      getOrders(user.id).then(setOrders);
     }
   }, [user]);
 

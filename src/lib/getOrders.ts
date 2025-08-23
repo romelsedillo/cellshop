@@ -2,11 +2,11 @@
 import { supabase } from "@/lib/supabaseClient";
 import { Order } from "@/types/types";
 
-export async function getOrders(email: string): Promise<Order[]> {
+export async function getOrders(userId: string): Promise<Order[]> {
   const { data, error } = await supabase
     .from("orders")
     .select("*")
-    .eq("email", email)
+    .eq("user_id", userId) // filter by user_id instead of email
     .order("created_at", { ascending: false });
 
   if (error) {
