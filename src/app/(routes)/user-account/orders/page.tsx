@@ -9,6 +9,7 @@ export type Order = {
   email: string;
   products: string;
   created_at: string;
+  status: string;
 };
 
 export default function OrdersPage() {
@@ -20,7 +21,7 @@ export default function OrdersPage() {
       getOrders(user.id).then(setOrders);
     }
   }, [user]);
-
+  console.log(orders);
   return (
     <div className="p-4">
       <h1 className="text-xl font-semibold mb-4">My Orders</h1>
@@ -35,6 +36,7 @@ export default function OrdersPage() {
               <th className="px-4 py-2 border">Email</th>
               <th className="px-4 py-2 border">Cart Items</th>
               <th className="px-4 py-2 border">Date</th>
+              <th className="px-4 py-2 border">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -63,6 +65,8 @@ export default function OrdersPage() {
                   <td className="px-4 py-2 border">
                     {new Date(order.created_at).toLocaleString()}
                   </td>
+                  <td className="px-4 py-2 border">{order.status}</td>
+                 
                 </tr>
               );
             })}

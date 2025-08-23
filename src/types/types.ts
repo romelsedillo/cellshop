@@ -3,6 +3,7 @@ export type Order = {
   email: string;
   products: string; // still a string from DB
   created_at: string;
+  status: string;
 };
 export type CartItem = {
   id: string;
