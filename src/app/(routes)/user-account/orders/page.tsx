@@ -2,7 +2,14 @@
 import { useEffect, useState } from "react";
 import { getOrders } from "@/lib/getOrders";
 import { useAuthStore } from "@/store/useAuthStore";
-import { Order, CartItem } from "@/types/types";
+import { CartItem } from "@/types/types";
+
+export type Order = {
+  id: string;
+  email: string;
+  products: string;
+  created_at: string;
+};
 
 export default function OrdersPage() {
   const { user } = useAuthStore(); // Ensure `user` includes `id`
@@ -13,7 +20,7 @@ export default function OrdersPage() {
       getOrders(user.id).then(setOrders);
     }
   }, [user]);
-
+  console.log(orders);
   return (
     <div className="p-4">
       <h1 className="text-xl font-semibold mb-4">My Orders</h1>

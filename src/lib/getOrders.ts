@@ -9,6 +9,7 @@ export async function getOrders(userId: string): Promise<Order[]> {
     .eq("user_id", userId) // filter by user_id instead of email
     .order("created_at", { ascending: false });
 
+    
   if (error) {
     console.error("Error fetching orders:", error.message);
     return [];
