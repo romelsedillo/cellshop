@@ -2,12 +2,17 @@
 import { useEffect, useState } from "react";
 import { getOrders } from "@/lib/getOrders";
 import { useAuthStore } from "@/store/useAuthStore";
-import { CartItem } from "@/types/types";
+
+// Minimal inline type for products
+type ProductItem = {
+  name?: string;
+  quantity?: number;
+};
 
 export type Order = {
   id: string;
   email: string;
-  products: string;
+  products: unknown; // products could be string or already an array
   created_at: string;
   status: string;
 };
@@ -21,7 +26,23 @@ export default function OrdersPage() {
       getOrders(user.id).then(setOrders);
     }
   }, [user]);
-  console.log(orders);
+
+  const parseProducts = (products: unknown): ProductItem[] => {
+    if (Array.isArray(products)) {
+      return products as ProductItem[];
+    }
+    if (typeof products === "string") {
+      try {
+        const parsed = JSON.parse(products);
+        return Array.isArray(parsed) ? (parsed as ProductItem[]) : [];
+      } catch {
+        console.error("Invalid products JSON:", products);
+        return [];
+      }
+    }
+    return [];
+  };
+
   return (
     <div className="p-4">
       <h1 className="text-xl font-semibold mb-4">My Orders</h1>
@@ -41,32 +62,29 @@ export default function OrdersPage() {
           </thead>
           <tbody>
             {orders.map((order) => {
-              let cartProducts: CartItem[] = [];
-              try {
-                cartProducts = JSON.parse(order.products);
-              } catch (e) {
-                console.error("Invalid products JSON:", order.products);
-                console.error("error:", e);
-              }
+              const cartProducts = parseProducts(order.products);
 
               return (
                 <tr key={order.id}>
                   <td className="px-4 py-2 border">{order.id}</td>
                   <td className="px-4 py-2 border">{order.email}</td>
                   <td className="px-4 py-2 border">
-                    <ul className="list-disc list-inside space-y-1">
-                      {cartProducts.map((item, index) => (
-                        <li key={index}>
-                          {item.name} (x{item.quantity})
-                        </li>
-                      ))}
-                    </ul>
+                    {cartProducts.length > 0 ? (
+                      <ul className="list-disc list-inside space-y-1">
+                        {cartProducts.map((item, index) => (
+                          <li key={index}>
+                            {item?.name ?? "Unknown"} (x{item?.quantity ?? 0})
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <span>No items</span>
+                    )}
                   </td>
                   <td className="px-4 py-2 border">
                     {new Date(order.created_at).toLocaleString()}
                   </td>
                   <td className="px-4 py-2 border">{order.status}</td>
-                 
                 </tr>
               );
             })}
