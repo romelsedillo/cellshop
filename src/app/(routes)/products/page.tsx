@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useProductStore } from "@/store/useProductStore";
 import ProductCard from "@/components/layout/ProductCard";
 import ProductSkeletonCard from "@/components/layout/ProductSkeletonCard";
@@ -18,6 +18,7 @@ const brand = [
   { id: "9", label: "Google", value: "google" },
   { id: "10", label: "Infinix", value: "infinix" },
 ];
+
 const categories = [
   { id: "best-camera", label: "Best Camera Phones", value: "best-camera" },
   { id: "high-battery", label: "High Battery Capacity", value: "high-battery" },
@@ -32,21 +33,39 @@ const categories = [
 const ProductsPage = () => {
   const { allProducts, loading, error, fetchAllProducts } = useProductStore();
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-
-  const sortedProducts = [...allProducts].sort((a, b) =>
-    sortOrder === "asc" ? a.price - b.price : b.price - a.price
-  );
+  const [selectedBrand, setSelectedBrand] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
 
   useEffect(() => {
     fetchAllProducts();
   }, [fetchAllProducts]);
-  console.log(allProducts);
+
+  const filteredProducts = useMemo(() => {
+    let products = [...allProducts];
+
+    if (selectedBrand) {
+      products = products.filter(
+        (p) => p.brand?.toLowerCase() === selectedBrand
+      );
+    }
+
+    if (selectedCategory) {
+      products = products.filter(
+        (p) => p.category?.toLowerCase() === selectedCategory
+      );
+    }
+
+    return products.sort((a, b) =>
+      sortOrder === "asc" ? a.price - b.price : b.price - a.price
+    );
+  }, [allProducts, selectedBrand, selectedCategory, sortOrder]);
+
   return (
     <section className="w-full">
       <div className="max-w-7xl px-8 py-12 mx-auto">
         <div className="mx-auto">
           <div className="flex items-end justify-between mb-4">
-            <div className="">
+            <div>
               <h1 className="text-4xl text-gray-900 font-bold mb-2">
                 Browse Our Collection
               </h1>
@@ -63,43 +82,53 @@ const ProductsPage = () => {
               <option value="desc">Price: High to Low</option>
             </select>
           </div>
+
           <div className="grid grid-cols-12 gap-2 mx-auto">
-            {/* Brands button group */}
+            {/* Filters */}
             <div className="col-span-2 flex flex-col gap-2">
+              {/* Brand filter */}
               <div className="border border-gray-200 shadow-md bg-white py-4 px-6">
                 <h1 className="text-xl font-semibold mb-2">Brands</h1>
-                <RadioGroup defaultValue="">
-                  {brand.map((b, index) => (
-                    <div key={index} className="flex items-center space-x-2">
+                <RadioGroup
+                  value={selectedBrand}
+                  onValueChange={setSelectedBrand}
+                >
+                  {brand.map((b) => (
+                    <div key={b.id} className="flex items-center space-x-2">
+                      <RadioGroupItem
+                        value={b.value}
+                        id={b.id}
+                        className="cursor-pointer"
+                      />
                       <Label
                         htmlFor={b.id}
                         className="group cursor-pointer text-xs"
                       >
-                        <RadioGroupItem
-                          value={b.value}
-                          id={b.id}
-                          className="cursor-pointer"
-                        />
                         {b.label}
                       </Label>
                     </div>
                   ))}
                 </RadioGroup>
               </div>
+
+              {/* Category filter */}
               <div className="border border-gray-200 shadow-md bg-white py-4 px-6">
                 <h1 className="text-xl font-semibold mb-2">Categories</h1>
-                <RadioGroup defaultValue="">
-                  {categories.map((cate, index) => (
-                    <div key={index} className="flex items-center space-x-2">
+                <RadioGroup
+                  value={selectedCategory}
+                  onValueChange={setSelectedCategory}
+                >
+                  {categories.map((cate) => (
+                    <div key={cate.id} className="flex items-center space-x-2">
+                      <RadioGroupItem
+                        value={cate.value}
+                        id={cate.id}
+                        className="cursor-pointer"
+                      />
                       <Label
                         htmlFor={cate.id}
                         className="group cursor-pointer text-xs"
                       >
-                        <RadioGroupItem
-                          value={cate.value}
-                          id={cate.id}
-                          className="cursor-pointer"
-                        />
                         {cate.label}
                       </Label>
                     </div>
@@ -107,6 +136,8 @@ const ProductsPage = () => {
                 </RadioGroup>
               </div>
             </div>
+
+            {/* Products */}
             <div className="col-span-10 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 mx-auto">
               {loading ? (
                 Array.from({ length: 10 }).map((_, index) => (
@@ -116,8 +147,12 @@ const ProductsPage = () => {
                 <p className="text-center font-medium text-lg text-red-500">
                   Error loading products.
                 </p>
+              ) : filteredProducts.length === 0 ? (
+                <p className="text-center col-span-full text-gray-600">
+                  No products found.
+                </p>
               ) : (
-                sortedProducts.map((prod) => (
+                filteredProducts.map((prod) => (
                   <ProductCard key={prod.id} product={prod} />
                 ))
               )}
