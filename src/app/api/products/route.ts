@@ -17,6 +17,7 @@ export async function GET() {
         featured: product.metadata.featured === "true",
         brand: product.metadata.brand,
         latest: product.metadata.latest === "true",
+        category: product.metadata.category,
       };
     });
     console.log(stripe);
