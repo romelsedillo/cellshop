@@ -22,9 +22,9 @@ const brand = [
 const categories = [
   { id: "best-camera", label: "Best Camera Phones", value: "best-camera" },
   { id: "high-battery", label: "High Battery Capacity", value: "high-battery" },
-  { id: "gaming-phones", label: "Gaming Phones", value: "gaming-phones" },
-  { id: "foldable-phones", label: "Foldable Phones", value: "foldable-phones" },
-  { id: "budget-phones", label: "Budget Phones", value: "budget-phones" },
+  { id: "gaming-phones", label: "Gaming Phones", value: "gaming" },
+  { id: "foldable-phones", label: "Foldable Phones", value: "foldable" },
+  { id: "budget-phones", label: "Budget Phones", value: "budget" },
   { id: "mid-range", label: "Mid-Range Phones", value: "mid-range" },
   { id: "flagship", label: "Flagship Phones", value: "flagship" },
   { id: "tablet", label: "Tablet", value: "tablet" },
