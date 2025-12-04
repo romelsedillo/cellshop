@@ -7,19 +7,21 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const brand = [
-  { id: "1", label: "Apple", value: "apple" },
-  { id: "2", label: "Samsung", value: "samsung" },
-  { id: "3", label: "Xiaomi", value: "xiaomi" },
-  { id: "4", label: "Sony", value: "sony" },
-  { id: "5", label: "Vivo", value: "vivo" },
-  { id: "6", label: "Realme", value: "realme" },
-  { id: "7", label: "Asus", value: "asus" },
-  { id: "8", label: "Huawei", value: "huawei" },
-  { id: "9", label: "Google", value: "google" },
-  { id: "10", label: "Infinix", value: "infinix" },
+  { id: "1", label: "All Brands", value: "" },
+  { id: "2", label: "Apple", value: "apple" },
+  { id: "3", label: "Samsung", value: "samsung" },
+  { id: "4", label: "Xiaomi", value: "xiaomi" },
+  { id: "5", label: "Sony", value: "sony" },
+  { id: "6", label: "Vivo", value: "vivo" },
+  { id: "7", label: "Realme", value: "realme" },
+  { id: "8", label: "Asus", value: "asus" },
+  { id: "9", label: "Huawei", value: "huawei" },
+  { id: "10", label: "Google", value: "google" },
+  { id: "11", label: "Infinix", value: "infinix" },
 ];
 
 const categories = [
+  { id: "all", label: "All Categories", value: "" },
   { id: "best-camera", label: "Best Camera Phones", value: "best-camera" },
   { id: "high-battery", label: "High Battery Capacity", value: "high-battery" },
   { id: "gaming-phones", label: "Gaming Phones", value: "gaming" },
