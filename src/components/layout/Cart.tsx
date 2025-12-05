@@ -4,10 +4,14 @@ import React from "react";
 import { useCartStore } from "@/store/useCartStore";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useCartDrawerStore } from "@/store/useCartDrawerStore";
 
 const Cart = () => {
+  const router = useRouter();
   const { cart, increaseQty, decreaseQty, removeFromCart, clearCart } =
     useCartStore();
+  const { closeCart } = useCartDrawerStore();
 
   const totalPrice = cart.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -17,6 +21,11 @@ const Cart = () => {
   if (cart.length === 0) {
     return <p className="p-4 text-center text-gray-500">Your cart is empty.</p>;
   }
+
+  const handleCheckout = () => {
+    router.push("/checkout");
+    closeCart();
+  };
 
   return (
     <div className="p-2 space-y-4">
@@ -72,7 +81,7 @@ const Cart = () => {
           </div>
         </div>
       ))}
-      <>
+      <div>
         <div className="flex justify-between items-center border-t pt-4">
           <p className="font-bold text-lg">
             Total: ₱ {totalPrice.toLocaleString()}
@@ -85,10 +94,13 @@ const Cart = () => {
             Clear Cart
           </Button>
         </div>
-        <Button variant="destructive" className="rounded cursor-pointer">
-          Clear Cart
+        <Button
+          onClick={handleCheckout}
+          className="bg-pink-500 text-white hover:bg-pink-600 text-sm cursor-pointer rounded w-auto"
+        >
+          Checkout
         </Button>
-      </>
+      </div>
     </div>
   );
 };
