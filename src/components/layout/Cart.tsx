@@ -72,18 +72,23 @@ const Cart = () => {
           </div>
         </div>
       ))}
-      <div className="flex justify-between items-center border-t pt-4">
-        <p className="font-bold text-lg">
-          Total: ₱ {totalPrice.toLocaleString()}
-        </p>
-        <Button
-          variant="destructive"
-          onClick={clearCart}
-          className="rounded cursor-pointer"
-        >
+      <>
+        <div className="flex justify-between items-center border-t pt-4">
+          <p className="font-bold text-lg">
+            Total: ₱ {totalPrice.toLocaleString()}
+          </p>
+          <Button
+            variant="destructive"
+            onClick={clearCart}
+            className="rounded cursor-pointer"
+          >
+            Clear Cart
+          </Button>
+        </div>
+        <Button variant="destructive" className="rounded cursor-pointer">
           Clear Cart
         </Button>
-      </div>
+      </>
     </div>
   );
 };
