@@ -24,16 +24,18 @@ const brands = [
 export const FeaturedBrands = () => {
   return (
     <section className="bg-white">
-      <div className="px-8 py-16 max-w-7xl mx-auto">
-        <div className="w-full flex items-center justify-between mb-10">
-          <div className="max-w-xl">
-            <h1 className="font-bold text-4xl">Featured Brands</h1>
-            <p>
+      <div className="px-4 md:px-8 py-16 max-w-7xl mx-auto">
+        <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between mb-10">
+          <div className="max-w-lg">
+            <h1 className="text-center sm:text-left font-bold text-4xl">
+              Featured Brands
+            </h1>
+            <p className="text-center sm:text-left">
               Explore our selection of top-tier smartphone brands, each offering
               unique features and innovations.
             </p>
           </div>
-          <div>
+          <div className="mt-4 md:mt-0 flex items-center justify-center md:justify-end">
             <Link href="/all-brands" className="flex items-center gap-2">
               <span className="hover:underline">View all brands</span>
               <ArrowRight />
@@ -41,29 +43,37 @@ export const FeaturedBrands = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 px-4 md:px-8 xl:px-0 mx-auto">
           {brands.map((brand, index) => (
             <div
               key={index}
-              className="shadow-lg shadow-slate-400 rounded-md overflow-hidden"
+              className="w-full max-w-xs mx-auto overflow-hidden rounded-md shadow-lg shadow-slate-400"
             >
               <Link href={brand.href}>
-                <div className="group relative w-72 h-40 transition-transform duration-300">
-                  <div className="w-full h-full flex items-center justify-center">
-                    <div className="w-full">
-                      <Image
-                        alt={brand.name}
-                        src={brand.image}
-                        className="w-full h-auto object-fill group-hover:scale-110 transition-transform duration-500"
-                      />
-                    </div>
-                    <div className="absolute w-full inset-0 bg-black/40" />
-                    <div className="absolute z-20 w-full text-center text-white">
-                      <h2 className=" font-semibold text-2xl">{brand.name}</h2>
-                      <p className="text-xs group-hover:underline">
-                        View products
-                      </p>
-                    </div>
+                <div className="group relative aspect-[16/9] w-full overflow-hidden transition-transform duration-300">
+                  {/* Image */}
+                  <Image
+                    alt={brand.name}
+                    src={brand.image}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    fill
+                    sizes="(max-width: 640px) 100vw,
+                   (max-width: 768px) 50vw,
+                   (max-width: 1280px) 33vw,
+                   25vw"
+                  />
+
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-black/40" />
+
+                  {/* Text */}
+                  <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center text-white">
+                    <h2 className="font-semibold text-xl sm:text-2xl">
+                      {brand.name}
+                    </h2>
+                    <p className="mt-1 text-xs sm:text-sm underline-offset-4 transition-all group-hover:underline">
+                      View products
+                    </p>
                   </div>
                 </div>
               </Link>

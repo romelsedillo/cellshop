@@ -6,9 +6,9 @@ import Testimony from "@/components/layout/Testimony";
 export default function Home() {
   return (
     <div className="">
-      <Hero />
-      <FeaturedProducts />
-      <FeaturedBrands />
+      {/* <Hero /> */}
+      {/* <FeaturedProducts /> */}
+      {/* <FeaturedBrands /> */}
       <Testimony />
     </div>
   );

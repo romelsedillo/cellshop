@@ -31,13 +31,16 @@ const Featured: React.FC = () => {
   };
   return (
     <motion.div
-      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2"
+      className="max-w-6xl grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:px-12 lg:px-14 xl:px-8 gap-2 md:gap-6 mx-auto"
       variants={container}
       initial="hidden"
       animate="show"
     >
       {loading ? (
-        <motion.div className="col-span-6 grid grid-cols-6 gap-2">
+        <motion.div
+          className="col-span-6 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2"
+          variants={container}
+        >
           {Array.from({ length: 12 }).map((_, index) => (
             <ProductSkeletonCard key={index} />
           ))}

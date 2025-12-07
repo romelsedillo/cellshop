@@ -35,7 +35,7 @@ const CartDrawer = () => {
             <X className="w-4 h-4 text-pink-500" />
           </button>
         </div>
-        <ScrollArea className="h-[480px] w-full">
+        <ScrollArea className="h-[90%] w-full">
           <Cart />
         </ScrollArea>
       </div>

@@ -8,8 +8,8 @@ import Latest from "./Latest";
 
 export const FeaturedProducts = () => {
   return (
-    <div className="w-full bg-gray-100">
-      <div className="max-w-7xl mx-auto relative flex flex-col px-8 py-16">
+    <div id="products" className="w-full bg-gray-100">
+      <div className="max-w-7xl mx-auto relative flex flex-col px-5 xl:px-12 py-16">
         <h1 className="font-bold text-4xl text-gray-900 mb-2">
           Top Picks For You
         </h1>
@@ -17,7 +17,7 @@ export const FeaturedProducts = () => {
           A collection of this season’s top choices.
         </p>
         <Tabs defaultValue="featured" className="w-full mb-12">
-          <TabsList className="absolute top-10 right-20 rounded bg-white space-x-2">
+          <TabsList className="mx-auto sm:absolute top-18 right-6 xl:right-12 rounded bg-white space-x-2">
             <TabsTrigger
               value="featured"
               className="rounded cursor-pointer text-pink-500 data-[state=active]:bg-pink-500 data-[state=active]:text-white px-6 py-3"
@@ -41,18 +41,18 @@ export const FeaturedProducts = () => {
             <Latest />
           </TabsContent>
         </Tabs>
-        <div className="text-center">
-          <Link href="/products">
-            <Button
-              variant="outline"
-              size="lg"
-              className="rounded-full group cursor-pointer"
-            >
-              View All Products
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Button>
-          </Link>
-        </div>
+      </div>
+      <div className="text-center">
+        <Link href="/products">
+          <Button
+            variant="outline"
+            size="lg"
+            className="rounded-full group cursor-pointer"
+          >
+            View All Products
+            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Button>
+        </Link>
       </div>
     </div>
   );

@@ -81,7 +81,7 @@ const Cart = () => {
           </div>
         </div>
       ))}
-      <div>
+      <div className="flex flex-col">
         <div className="flex justify-between items-center border-t pt-4">
           <p className="font-bold text-lg">
             Total: ₱ {totalPrice.toLocaleString()}
@@ -96,7 +96,7 @@ const Cart = () => {
         </div>
         <Button
           onClick={handleCheckout}
-          className="bg-pink-500 text-white hover:bg-pink-600 text-sm cursor-pointer rounded w-auto"
+          className="bg-pink-500 text-white hover:bg-pink-600 text-sm cursor-pointer rounded w-auto mt-4"
         >
           Checkout
         </Button>

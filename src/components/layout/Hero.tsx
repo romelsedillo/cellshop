@@ -4,6 +4,8 @@ import React from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation, Parallax } from "swiper/modules";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -36,6 +38,7 @@ const heroSlides = [
 ];
 
 const Hero = () => {
+  const router = useRouter();
   return (
     <div className="relative w-full">
       <Swiper
@@ -69,20 +72,23 @@ const Hero = () => {
                 </p>
                 <div
                   data-swiper-parallax="-300"
-                  className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+                  className="flex flex-col px-8 sm:flex-row gap-4 justify-center lg:justify-start"
                 >
                   <Button
+                    asChild
                     size="lg"
                     className="bg-pink-500 text-white hover:bg-pink-600 transition"
                   >
-                    Shop Now
+                    <Link href="#products">Shop Now</Link>
                   </Button>
+
                   <Button
+                    onClick={() => router.push("/products")}
                     variant="outline"
                     size="lg"
                     className="bg-white border border-pink-500 text-pink-500 hover:text-pink-500 hover:bg-gray-100 transition"
                   >
-                    Browse Brands
+                    Browse All Products
                   </Button>
                 </div>
               </div>

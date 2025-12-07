@@ -30,14 +30,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col scroll-smooth`}
       >
         <Navbar />
         <main className="pt-16">
           {children}
           <CartDrawer />
         </main>
-        <Footer />
+        {/* <Footer /> */}
         <Toaster position="bottom-right" richColors />
       </body>
     </html>
