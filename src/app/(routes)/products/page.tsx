@@ -5,6 +5,7 @@ import ProductCard from "@/components/layout/ProductCard";
 import ProductSkeletonCard from "@/components/layout/ProductSkeletonCard";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Button } from "@/components/ui/button";
 
 const brand = [
   { id: "1", label: "All Brands", value: "" },
@@ -33,6 +34,7 @@ const categories = [
 ];
 
 const ProductsPage = () => {
+  const [showFilters, setShowFilters] = useState(false);
   const { allProducts, loading, error, fetchAllProducts } = useProductStore();
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [selectedBrand, setSelectedBrand] = useState<string>("");
@@ -64,11 +66,11 @@ const ProductsPage = () => {
 
   return (
     <section className="w-full">
-      <div className="max-w-7xl px-8 py-12 mx-auto">
+      <div className="max-w-7xl px-5 lg:px-8 py-12 mx-auto">
         <div className="mx-auto">
-          <div className="flex items-end justify-between mb-4">
-            <div>
-              <h1 className="text-4xl text-gray-900 font-bold mb-2">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-4">
+            <div className="">
+              <h1 className="text-2xl md:text-4xl text-gray-900 font-bold mb-2">
                 Browse Our Collection
               </h1>
               <p className="text-gray-600">
@@ -78,18 +80,28 @@ const ProductsPage = () => {
             <select
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
-              className="border border-gray-300 px-3 py-2 rounded text-sm"
+              className="mt-4 lg:mt-0 border border-gray-300 px-3 py-2 rounded text-sm"
             >
               <option value="asc">Price: Low to High</option>
               <option value="desc">Price: High to Low</option>
             </select>
           </div>
 
-          <div className="grid grid-cols-12 gap-2 mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mx-auto">
+            <Button
+              className="lg:hidden mb-2 w-full"
+              onClick={() => setShowFilters((v) => !v)}
+            >
+              {showFilters ? "Hide Filters" : "Show Filters"}
+            </Button>
             {/* Filters */}
-            <div className="col-span-2 flex flex-col gap-2">
+            <div
+              className={`lg:block ${
+                showFilters ? "block" : "hidden"
+              } lg:col-span-2 w-full`}
+            >
               {/* Brand filter */}
-              <div className="border border-gray-200 shadow-md bg-white py-4 px-6">
+              <div className="flex flex-col gap-4 mb-4">
                 <h1 className="text-xl font-semibold mb-2">Brands</h1>
                 <RadioGroup
                   value={selectedBrand}
@@ -114,7 +126,7 @@ const ProductsPage = () => {
               </div>
 
               {/* Category filter */}
-              <div className="border border-gray-200 shadow-md bg-white py-4 px-6">
+              <div className="flex flex-col gap-4 mb-4">
                 <h1 className="text-xl font-semibold mb-2">Categories</h1>
                 <RadioGroup
                   value={selectedCategory}
@@ -138,19 +150,18 @@ const ProductsPage = () => {
                 </RadioGroup>
               </div>
             </div>
-
             {/* Products */}
-            <div className="col-span-10 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 mx-auto">
+            <div className="lg:col-span-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-3">
               {loading ? (
                 Array.from({ length: 10 }).map((_, index) => (
                   <ProductSkeletonCard key={index} />
                 ))
               ) : error ? (
-                <p className="text-center font-medium text-lg text-red-500">
+                <p className="col-span-full text-center text-red-500 text-sm">
                   Error loading products.
                 </p>
               ) : filteredProducts.length === 0 ? (
-                <p className="text-center col-span-full text-gray-600">
+                <p className="col-span-full text-center text-gray-600">
                   No products found.
                 </p>
               ) : (

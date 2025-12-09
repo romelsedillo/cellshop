@@ -29,6 +29,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   };
 
   return (
+    // <Link href={`/product-details/${product.name.replace(/\s+/g, "-").toLowerCase()}/${product.id}`}></Link>
     <Link href={`/product-details/${product.id}`}>
       <div className="group flex flex-col justify-between bg-white h-[430px] w-[195px] border border-slate-200 shadow rounded overflow-hidden p-4 mx-auto">
         {/* Top: Badges + Wishlist */}
@@ -45,7 +46,8 @@ const ProductCard: React.FC<Props> = ({ product }) => {
               </Badge>
             )}
           </div>
-          {user ? (
+          <FavoriteButton productId={product.id} />
+          {/* {user ? (
             <FavoriteButton productId={product.id} />
           ) : (
             <Button
@@ -55,7 +57,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             >
               <FaRegHeart className="h-4 w-4 text-pink-500" />
             </Button>
-          )}
+          )} */}
         </div>
         <div className="flex flex-col items-center">
           {/* Image */}

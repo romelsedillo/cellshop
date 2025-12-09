@@ -4,19 +4,19 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-
-<FaRegHeart />;
+import { supabase } from "@/lib/supabaseClient";
 
 import {
   addFavorite,
   removeFavorite,
   isFavorite,
 } from "@/lib/supabaseFavorites";
+import { useRouter } from "next/navigation";
 
 export function FavoriteButton({ productId }: { productId: string }) {
   const [favorited, setFavorited] = useState(false);
   const [loading, setLoading] = useState(true);
-
+  const router = useRouter();
   useEffect(() => {
     const check = async () => {
       try {
@@ -33,8 +33,13 @@ export function FavoriteButton({ productId }: { productId: string }) {
 
   const handleToggle = async (e: React.MouseEvent) => {
     e.preventDefault();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     try {
-      if (favorited) {
+      if (!user) {
+        router.push("/login");
+      } else if (favorited) {
         await removeFavorite(productId);
         setFavorited(false);
         toast.success("Removed from wishlist!");

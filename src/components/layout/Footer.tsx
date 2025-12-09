@@ -33,8 +33,8 @@ const contactInfo = [
 const Footer = () => {
   return (
     <div className="w-full bg-white">
-      <div className="max-w-7xl mx-auto relative flex flex-col px-8">
-        <div className="px-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-b gap-4">
+      <div className="max-w-7xl mx-auto relative flex flex-col lg:px-8">
+        <div className="px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-8 border-b gap-4">
           {contactInfo.map((info, index) => (
             <div
               key={index}
@@ -50,7 +50,7 @@ const Footer = () => {
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-4 pt-16 gap-8">
+        <div className="px-5  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 pt-16 gap-8">
           <div className="col-span-1">
             <h1 className="text-2xl font-bold mb-4">
               Pick<span className="text-pink-500">Cell</span> Shop

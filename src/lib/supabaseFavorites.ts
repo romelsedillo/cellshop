@@ -9,7 +9,7 @@ export async function addFavorite(productId: string) {
   if (userError || !user) {
     throw new Error("You must be logged in to favorite items.");
   }
-
+  if (!user) return;
   const { error } = await supabase.from("favorites").insert([
     {
       product_id: productId,
