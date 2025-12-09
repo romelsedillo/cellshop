@@ -6,11 +6,11 @@ import { IoIosStar } from "react-icons/io";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { ShoppingCart } from "lucide-react";
-import { FaRegHeart } from "react-icons/fa";
 import { useCartStore } from "@/store/useCartStore";
 import { FavoriteButton } from "./FavoriteButton";
 import { useAuthStore } from "@/store/useAuthStore";
 import type { Product } from "@/types/product";
+import { useRouter } from "next/navigation";
 
 type Props = {
   product: Product;
@@ -18,20 +18,26 @@ type Props = {
 
 const ProductCard: React.FC<Props> = ({ product }) => {
   const { user } = useAuthStore();
-
+  const router = useRouter();
   const handleAddToCart = (product: Product) => {
-    useCartStore.getState().addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-    });
+    if (!user) {
+      router.push("/login");
+      toast.error("You must be logged in to add items to the cart.");
+    } else {
+      useCartStore.getState().addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+      });
+      toast.success(product.name);
+    }
   };
 
   return (
-    // <Link href={`/product-details/${product.name.replace(/\s+/g, "-").toLowerCase()}/${product.id}`}></Link>
+    // <Link href={`/product-details/${product.name.replace(/\s+/g, "-").toLowerCase()}/${product.id}`}></Link> w-[195px]
     <Link href={`/product-details/${product.id}`}>
-      <div className="group flex flex-col justify-between bg-white h-[430px] w-[195px] border border-slate-200 shadow rounded overflow-hidden p-4 mx-auto">
+      <div className="group flex flex-col justify-between bg-white h-[430px] max-w-[300px] border border-slate-200 shadow rounded overflow-hidden p-4 mx-auto">
         {/* Top: Badges + Wishlist */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
@@ -61,7 +67,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         </div>
         <div className="flex flex-col items-center">
           {/* Image */}
-          <div className="w-40 h-52 mx-auto flex items-center justify-center">
+          <div className="max-w-44 h-52 mx-auto flex items-center justify-center">
             <Image
               alt={product.name}
               src={product.image}
@@ -95,7 +101,6 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             className="w-full text-xs flex items-center justify-center rounded bg-pink-500 text-white hover:bg-pink-600 "
             onClick={(e) => {
               e.preventDefault();
-              toast.success(product.name);
               handleAddToCart(product);
             }}
           >

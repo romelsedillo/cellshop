@@ -5,7 +5,7 @@ import ProductCard from "@/components/layout/ProductCard";
 import ProductSkeletonCard from "@/components/layout/ProductSkeletonCard";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Button } from "@/components/ui/button";
+import FilterSideDrawer from "@/components/layout/FilterSideDrawer";
 
 const brand = [
   { id: "1", label: "All Brands", value: "" },
@@ -34,7 +34,6 @@ const categories = [
 ];
 
 const ProductsPage = () => {
-  const [showFilters, setShowFilters] = useState(false);
   const { allProducts, loading, error, fetchAllProducts } = useProductStore();
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [selectedBrand, setSelectedBrand] = useState<string>("");
@@ -80,7 +79,7 @@ const ProductsPage = () => {
             <select
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
-              className="mt-4 lg:mt-0 border border-gray-300 px-3 py-2 rounded text-sm"
+              className="hidden lg:flex mt-4 border border-gray-300 px-3 py-2 rounded text-sm"
             >
               <option value="asc">Price: Low to High</option>
               <option value="desc">Price: High to Low</option>
@@ -88,21 +87,37 @@ const ProductsPage = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mx-auto">
-            <Button
-              className="lg:hidden mb-2 w-full"
+            <div className="flex lg:hidden w-80 border">
+              <div className="w-1/2">
+                <FilterSideDrawer
+                  brand={brand}
+                  selectedBrand={selectedBrand}
+                  setSelectedBrand={setSelectedBrand}
+                  categories={categories}
+                  selectedCategory={selectedCategory}
+                  setSelectedCategory={setSelectedCategory}
+                />
+              </div>
+              <select
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
+                className="w-1/2 border border-gray-300 px-3 py-2 text-sm"
+              >
+                <option value="asc">Price: Low to High</option>
+                <option value="desc">Price: High to Low</option>
+              </select>
+            </div>
+            {/* <Button
+              className="lg:hidden mb-2 w-full sm:w-40"
               onClick={() => setShowFilters((v) => !v)}
             >
               {showFilters ? "Hide Filters" : "Show Filters"}
-            </Button>
+            </Button> */}
             {/* Filters */}
-            <div
-              className={`lg:block ${
-                showFilters ? "block" : "hidden"
-              } lg:col-span-2 w-full`}
-            >
+            <div className="hidden lg:flex flex-col lg:col-span-2 w-full">
               {/* Brand filter */}
               <div className="flex flex-col gap-4 mb-4">
-                <h1 className="text-xl font-semibold mb-2">Brands</h1>
+                <h2 className="text-xl font-semibold mb-2">Brands</h2>
                 <RadioGroup
                   value={selectedBrand}
                   onValueChange={setSelectedBrand}
@@ -151,7 +166,7 @@ const ProductsPage = () => {
               </div>
             </div>
             {/* Products */}
-            <div className="lg:col-span-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-3">
+            <div className="lg:col-span-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
               {loading ? (
                 Array.from({ length: 10 }).map((_, index) => (
                   <ProductSkeletonCard key={index} />
