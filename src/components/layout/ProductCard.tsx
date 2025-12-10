@@ -37,7 +37,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   return (
     // <Link href={`/product-details/${product.name.replace(/\s+/g, "-").toLowerCase()}/${product.id}`}></Link> w-[195px]
     <Link href={`/product-details/${product.id}`}>
-      <div className="group flex flex-col justify-between bg-white h-[430px] max-w-[300px] border border-slate-200 shadow rounded overflow-hidden p-4 mx-auto">
+      <div className="group flex flex-col justify-between bg-white h-[430px] max-w-[320px] border border-slate-200 shadow rounded overflow-hidden p-4 mx-auto">
         {/* Top: Badges + Wishlist */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">

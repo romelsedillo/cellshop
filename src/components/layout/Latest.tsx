@@ -31,7 +31,7 @@ const Latest: React.FC = () => {
   };
   return (
     <motion.div
-      className="max-w-6xl grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:px-12 lg:px-14 xl:px-8 gap-2 md:gap-6 mx-auto"
+      className="max-w-6xl grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 mx-auto"
       variants={container}
       initial="hidden"
       animate="show"

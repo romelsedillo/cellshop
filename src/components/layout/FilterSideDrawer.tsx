@@ -39,7 +39,7 @@ const FilterSideDrawer = ({
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline" className="rounded-none w-full">
+        <Button variant="outline" className="rounded-none w-full py-2">
           Filter
         </Button>
       </SheetTrigger>

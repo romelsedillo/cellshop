@@ -17,6 +17,7 @@ export const FeaturedProducts = () => {
           A collection of this season’s top choices.
         </p>
         <Tabs defaultValue="featured" className="w-full mb-12">
+          {/* Trigger buttons */}
           <TabsList className="mx-auto sm:absolute top-18 right-6 xl:right-12 rounded bg-white space-x-2">
             <TabsTrigger
               value="featured"
@@ -31,6 +32,7 @@ export const FeaturedProducts = () => {
               Latest
             </TabsTrigger>
           </TabsList>
+
           {/* Featured */}
           <TabsContent value="featured" className="w-full">
             <Featured />

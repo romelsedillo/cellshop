@@ -87,7 +87,7 @@ const ProductsPage = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mx-auto">
-            <div className="flex lg:hidden w-80 border">
+            <div className="flex lg:hidden max-w-sm">
               <div className="w-1/2">
                 <FilterSideDrawer
                   brand={brand}
@@ -101,7 +101,7 @@ const ProductsPage = () => {
               <select
                 value={sortOrder}
                 onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
-                className="w-1/2 border border-gray-300 px-3 py-2 text-sm"
+                className="w-1/2 border border-gray-300 px-3 text-sm"
               >
                 <option value="asc">Price: Low to High</option>
                 <option value="desc">Price: High to Low</option>
@@ -166,7 +166,7 @@ const ProductsPage = () => {
               </div>
             </div>
             {/* Products */}
-            <div className="lg:col-span-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+            <div className="lg:col-span-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
               {loading ? (
                 Array.from({ length: 10 }).map((_, index) => (
                   <ProductSkeletonCard key={index} />
