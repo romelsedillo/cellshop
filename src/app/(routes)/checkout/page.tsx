@@ -102,7 +102,7 @@ const CheckoutPage = () => {
             {cart.map((item: CartItem) => (
               <div
                 key={item.id}
-                className="flex items-center border-b pb-4 gap-4"
+                className="flex flex-col lg:flex-row items-center border-b pb-4 gap-4"
               >
                 <Image
                   src={item.image}
