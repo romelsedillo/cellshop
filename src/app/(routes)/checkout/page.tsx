@@ -102,29 +102,31 @@ const CheckoutPage = () => {
             {cart.map((item: CartItem) => (
               <div
                 key={item.id}
-                className="flex flex-col lg:flex-row items-center border-b pb-4 gap-4"
+                className="flex flex-col sm:flex-row items-center border-b pb-4 gap-4"
               >
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  width={80}
-                  height={80}
-                  className="object-contain"
-                />
+                <div className="w-full sm:w-[200px] flex justify-center items-center">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    width={200}
+                    height={200}
+                    className="object-contain max-h-[200px]"
+                  />
+                </div>
 
-                <div className="flex-1">
-                  <h2 className="font-semibold">{item.name}</h2>
-                  <p className="text-gray-600 text-sm">
+                <div className="flex-1 flex flex-col gap-2">
+                  <h2 className="font-semibold text-3xl">{item.name}</h2>
+                  <p className="text-gray-600 text-xl">
                     ₱ {item.price.toLocaleString()}
                   </p>
 
                   <div className="flex items-center justify-between mt-2">
-                    <div className="flex items-center">
-                      <p className="mr-2 text-gray-700">Quantity:</p>
+                    <div className="flex items-center gap-2">
+                      <p className="mr-2 text-xl text-gray-700">Quantity:</p>
                       <Button
-                        size="sm"
+                        size="xs"
                         onClick={() => decreaseQty(item.id)}
-                        className="bg-pink-500 text-white hover:bg-pink-600 cursor-pointer"
+                        className="bg-pink-500 text-white rounded hover:bg-pink-600 cursor-pointer"
                       >
                         −
                       </Button>
@@ -132,36 +134,50 @@ const CheckoutPage = () => {
                       <Button
                         size="sm"
                         onClick={() => increaseQty(item.id)}
-                        className="bg-pink-500 text-white hover:bg-pink-600"
+                        className="bg-pink-500 text-white rounded hover:bg-pink-600"
                       >
                         +
                       </Button>
                     </div>
-
-                    <Button
-                      onClick={() => handleRemoveFromCart(item)}
-                      className="bg-red-500 text-white hover:bg-red-600 cursor-pointer"
-                    >
-                      Remove
-                    </Button>
                   </div>
 
                   <p className="mt-2 text-sm text-gray-500">
-                    Subtotal: ₱ {(item.price * item.quantity).toLocaleString()}
-                    .00
+                    Subtotal:{" "}
+                    <span className="text-pink-600 font-semibold">
+                      ₱ {(item.price * item.quantity).toLocaleString()}
+                      .00
+                    </span>
                   </p>
+                </div>
+                <div className="flex items-center">
+                  <Button
+                    onClick={() => handleRemoveFromCart(item)}
+                    className="bg-red-500 text-white rounded hover:bg-red-600 cursor-pointer"
+                  >
+                    Remove
+                  </Button>
                 </div>
               </div>
             ))}
           </div>
-
-          <div className="text-right mb-4">
-            <p className="text-lg">
-              Total:{" "}
-              <span className="text-pink-600 font-semibold">
-                ₱ {totalPrice.toLocaleString()}.00
-              </span>
-            </p>
+          <h2 className="text-xl font-semibold mb-2">Order Summary</h2>
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex justify-between gap-2 text-gray-700">
+              <p className="text-lg">
+                Total Items:{" "}
+                <span className="text-pink-600 font-semibold">
+                  {cart.length}
+                </span>
+              </p>
+            </div>
+            <div className="">
+              <p className="text-lg">
+                Total:{" "}
+                <span className="text-pink-600 font-semibold">
+                  ₱ {totalPrice.toLocaleString()}.00
+                </span>
+              </p>
+            </div>
           </div>
 
           <button
